@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pregpk"
+version = "0.1.0"
+description = "A Python library with functionalities for the FDA PregPK website."
+authors = [
+    { name="mromanelloj"}
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+# Specify common dependencies
+dependencies = [
+    "requests", "numpy", "pandas"
+]
+
+[project.optional-dependencies]
+# Define optional dependencies for each submodule
+entrez = [
+    "Bio",
+    "biopython",
+    "tqdm",
+]
+pubtator = ["tqdm"]
+prompt_testing = ["scikit-learn"]
+gpt = ["openai", "tqdm"]
+front_end = [
+    "dash",
+    "dash_ag_grid",
+    "dash-bootstrap-components",
+    "plotly",
+    "flask",
+    "flask-restful",
+    "pint"
+]
+data_transformation = ["pint", "pycountry"]
+all = [
+    "Bio",
+    "biopython",
+    "tqdm",
+    "scikit-learn",
+    "openai",
+    "dash",
+    "dash_ag_grid",
+    "dash-bootstrap-components",
+    "plotly",
+    "flask",
+    "flask-restful",
+    "pint",
+    "pycountry"
+]
