@@ -1,15 +1,9 @@
 import warnings
+import tokenize
+import numpy as np
 import pint
 import re
-
-# Define app-wise pint unit registry with units used in the spreadsheet
-app_ureg = pint.UnitRegistry()
-app_ureg.define("m2 = m**2")
-app_ureg.define("mcg = microgram")
-app_ureg.define("IU = international unit")
-app_ureg.define("IUnits = international unit")
-app_ureg.define("Eq = equivalent")
-pint.set_application_registry(app_ureg)
+from . import app_ureg
 
 
 class ValueRange:
@@ -35,6 +29,12 @@ class ValueRange:
                       "Units": self.unit}
 
         return f'{self.__class__.__name__}({", ".join([f"{key}: {val}" for key, val in print_dict.items() if val is not None])})'
+
+    def __float__(self):
+        if self.sort_val:
+            return self.sort_val
+        else:
+            return np.nan
 
     def _process_text(self):
 
@@ -72,6 +72,8 @@ class ValueRange:
             if isinstance(u, pint.Unit) and not u.dimensionless:
                 return True
         except (pint.UndefinedUnitError, ValueError, TypeError):
+            return False
+        except tokenize.TokenError:  # TODO: Also should not need; review later.
             return False
 
         return False
@@ -198,6 +200,10 @@ class ValueRange:
             return
 
         return
+
+    def unit_dict(self):
+
+        return self.unit
 
     # __getstate__ is run before pickling. Pickling a pint.UnitRegistry() is not allowed because it has lambda functions
     # Thus, we remove the "ureg" attribute before serializing (pickling) it
