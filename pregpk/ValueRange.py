@@ -8,7 +8,7 @@ from . import app_ureg
 
 class ValueRange:
     def __init__(self, text):
-        self.ureg = app_ureg
+        self.ureg = app_ureg  # TODO: Is this necessary? Could potentially delete and save memory
 
         self.unit = None
         self.average = None
@@ -31,8 +31,8 @@ class ValueRange:
         return f'{self.__class__.__name__}({", ".join([f"{key}: {val}" for key, val in print_dict.items() if val is not None])})'
 
     def __float__(self):
-        if self.sort_val:
-            return self.sort_val
+        if self.sort_val is not None:
+            return float(self.sort_val)
         else:
             return np.nan
 
@@ -200,10 +200,6 @@ class ValueRange:
             return
 
         return
-
-    def unit_dict(self):
-
-        return self.unit
 
     # __getstate__ is run before pickling. Pickling a pint.UnitRegistry() is not allowed because it has lambda functions
     # Thus, we remove the "ureg" attribute before serializing (pickling) it

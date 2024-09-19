@@ -1,6 +1,8 @@
 import os
 import warnings
 import re
+import json
+from types import MappingProxyType
 import numpy as np
 import pandas as pd
 import pycountry
@@ -20,8 +22,39 @@ def convert_to_ValueRange(ele):
     except (ValueError, TypeError):
         return np.nan
 
+    # TODO: This should not be necessary (AssertionError)
+    except AssertionError:
+        return np.nan
+
 
 def check_ValueRange_for_expected_dimensions(vr, expected_dims, invalid_return=np.nan):
+
+    if isinstance(vr, ValueRange):
+
+        if not vr.unit:  # If never assigned, vr.unit is still None
+            if "" in expected_dims:  # dimensionless allowed?
+                return vr
+            else:
+                return invalid_return
+
+        else:  # if has a pint unit
+            dims = vr.unit.dimensionality
+
+            if not dims:  # has a pint unit but is assigned dimensionless unit (not expected)
+                if "" in expected_dims:
+                    return vr
+
+            else:
+                for i_dim in dict(dims):  # {dimension: power}
+                    if i_dim not in expected_dims:
+                        return invalid_return
+                return vr  # If full for loop runs and nothing outside of expected_dims
+
+    else:
+        raise TypeError("Input must be a ValueRange object.")
+
+
+def check_ValueRange_for_expected_dimensionality(vr, expected_dims, invalid_return=np.nan):
 
     if isinstance(vr, ValueRange):
 
@@ -158,6 +191,7 @@ def standardize_column_names(df):
 
 
 def standardize_column_dtypes(df):
+
     # TODO: There is a way to do this with the native read_csv or read_excel function that you should use instead
     df['pmid'] = df['pmid'].astype(str)
     df['gestational_age'] = df['gestational_age'].astype(str)
@@ -173,20 +207,43 @@ def standardize_column_dtypes(df):
     return df
 
 
-def standardize_values(df):
+def standardize_values(df, standard_values_directory):
     # TODO: There is a way to do this with the native read_csv or read_excel function that you should use instead
     df['pmid'] = df['pmid'].apply(lambda raw_pmid: standardize_pmid(raw_pmid)).astype(str)
-    df['pmid_hyperlink'] = df['pmid'].apply(lambda pmid: f'<a href="https://pubmed.ncbi.nlm.nih.gov/{pmid}" target="_blank">{pmid}</a>')
-    df = df.apply(lambda row: standardize_study_type(row), axis=1)
+    df['pmid_hyperlink'] = df['pmid'].apply(lambda pmid: f'[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid})')
+    df = df.apply(lambda row: standardize_study_type(row, standard_values_directory), axis=1)
     df['n'] = df['n'].apply(lambda raw_n: standardize_n(raw_n))
     df = df.apply(lambda row: standardize_maternal_or_fetal_data(row), axis=1)
-    # df = df.apply(lambda row: standardize_gestational_age(row), axis=1)
     df = df.apply(lambda row: standardize_trimesters(row), axis=1)
 
     dose_dimensions = ["[time]", "[mass]", "[length]", "[substance]", ""]  # Include dimensionless
-    df["dose_vr"] = df["dose"].apply(convert_to_ValueRange)\
-        .apply(lambda x: check_ValueRange_for_expected_dimensions(x, dose_dimensions) if isinstance(x, ValueRange) else np.nan)
-    df["gestational_age_vr"] = df["gestational_age"].apply(convert_to_GestAgeValueRange)
+    df = df.apply(lambda row: standardize_dose(row, dose_dimensions), axis=1)
+
+    # df["dose_vr"] = df["dose"].apply(convert_to_ValueRange).apply(
+    #     lambda x: check_ValueRange_for_expected_dimensions(x, dose_dimensions) if isinstance(x, ValueRange)
+    #     else np.nan
+    # )
+
+    # gestational_age_dimensions = ["[time]", ""]
+    df = df.apply(lambda row: standardize_gestational_age(row), axis=1)
+    # df["gestational_age_vr"] = df["gestational_age"].apply(convert_to_GestAgeValueRange)
+    # df["gestational_age_stdized_val"] = df["gestational_age_vr"].astype(float)
+
+    # Handle parameters
+    params = ['c_max', 'auc', 't_max', 't_half', 'cl', 'c_min']
+    param_dimensions = ["[time]", "[mass]", "[length]", "[volume]",
+                        "[substance]", "[international_unit]", "[equivalent]", ""]
+    df = df.apply(lambda row: standardize_parameters(row, params, param_dimensions), axis=1)
+
+    df["other_pk_data_vr"] = df["other_pk_data"].apply(convert_to_ValueRange).apply(
+        lambda x: check_ValueRange_for_expected_dimensions(x, param_dimensions) if isinstance(x, ValueRange)
+        else np.nan
+    )
+
+    df["time_after_dose_vr"] = df["time_after_dose"].apply(convert_to_ValueRange).apply(
+        lambda x: check_ValueRange_for_expected_dimensions(x, ["[time]"]) if isinstance(x, ValueRange)
+        else np.nan
+    )
 
     return df
 
@@ -211,9 +268,9 @@ def standardize_pmid(raw_pmid):
     return ''
 
 
-def standardize_study_type(row):
+def standardize_study_type(row, standard_values_directory):
 
-    known_sts = gen_utils.load_csv_to_list(os.path.join('standard_values', 'study_types.csv'))
+    known_sts = gen_utils.load_csv_to_list(os.path.join(standard_values_directory, 'study_types.csv'))
     sts_to_col_name = {i: f'is_{re.sub("[ -]", "_", i)}_study'.lower() for i in known_sts}
 
     # Add new columns for OHE (indexes here because row is a series)
@@ -239,7 +296,7 @@ def standardize_study_type(row):
     for i, st in enumerate(study_types):
         if st not in known_sts:
             warnings.warn(f'Study type "{st}" not a known study type. Removing from study_type list. If correct, '
-                          f'add to standard_values/study_types.csv file.')
+                          f'add to {standard_values_directory}/study_types.csv file.')
             study_types.pop(i)
 
     for st in study_types:
@@ -339,6 +396,80 @@ def standardize_trimesters(df):
     df[tri_cols] = df[tri_cols].apply(convert_yn_to_bool)
 
     return df
+
+
+# TODO: It might actually be easier to just treat this like you treat dose but hard-code in the fact that it's weeks.
+#  As in, even if it is redundant, you can create a column with "gestational_age_dim" which should always be "[time]".
+#  The sorting and plotting functions you wrote for parameters and dose rely on that column existing, so you wouldn't
+#  require the additional functions you are now writing.
+def standardize_gestational_age(row):
+
+    gvr = convert_to_GestAgeValueRange(row["gestational_age"])
+
+    if isinstance(gvr, GestAgeValueRange):
+        stdized_val = float(gvr)
+    else:
+        stdized_val = np.nan
+
+    row["gestational_age_vr"] = gvr
+    row["gestational_age_stdized_val"] = stdized_val
+
+    return row
+
+
+# TODO: maybe standardize the three functions below into a single function
+def standardize_dose(row, dose_dimensions):
+
+    vr = convert_to_ValueRange(row["dose"])
+
+    if isinstance(vr, ValueRange):
+        vr = check_ValueRange_for_expected_dimensions(vr, dose_dimensions)
+
+    if pd.isna(vr):
+        dim = np.nan
+        stdized_val = np.nan
+
+    else:
+        if vr.unit is None:
+            dim = None
+            stdized_val = np.nan
+
+        else:
+            dim = vr.unit.dimensionality
+            stdized_val = float(vr) * (1 * vr.unit).to_base_units().magnitude
+
+    row.at[f"dose_vr"] = vr
+    row.at[f"dose_dim"] = dim
+    row.at[f"dose_stdized_val"] = stdized_val
+
+    return row
+
+
+def standardize_parameters(row, params, param_dimensions):
+
+    for param in params:
+
+        vr = convert_to_ValueRange(row[param])
+        if isinstance(vr, ValueRange):
+            vr = check_ValueRange_for_expected_dimensions(vr, param_dimensions)
+
+        if pd.isna(vr):  # Unable to convert
+            dim = np.nan
+            stdized_val = np.nan
+
+        else:
+            if vr.unit is None:
+                dim = None
+                stdized_val = vr.sort_val
+            else:
+                dim = vr.unit.dimensionality
+                stdized_val = float(vr) * (1 * vr.unit).to_base_units().magnitude
+
+        row.at[f"{param}_vr"] = vr
+        row.at[f"{param}_dim"] = dim
+        row.at[f"{param}_stdized_val"] = stdized_val
+
+    return row
 
 
 def convert_yn_to_bool(val):

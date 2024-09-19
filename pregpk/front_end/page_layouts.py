@@ -1,7 +1,9 @@
 import os
 import json
 import pandas as pd
+import plotly
 import plotly.io as pio
+import plotly.express as px
 from dash import Dash, html, dash_table, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 import dash_ag_grid as dag
@@ -49,7 +51,7 @@ def dashboard(df, column_settings):
     layout = dbc.Row([
 
         dashboard_sidebar(df),
-        datatable(df, column_settings),
+        dashboard_data_column(df, column_settings)
 
     ], style={"height": "100vh", "width": "100vw", "margin-left": "0px"})
 
@@ -164,34 +166,95 @@ def dashboard_filters(df):
     return layout
 
 
+def dashboard_data_column(df, column_settings):
+
+    layout = html.Div([
+        datatable(df, column_settings),
+        # data_ag_grid(df, column_settings),
+        dashboard_plot_div(),
+        # dashboard_plots(),
+    ], id="data_col")
+
+    return layout
+
+
 def datatable(df, column_settings):
 
     layout = html.Div([
                         dash_table.DataTable(
                             id='table',
 
-                            # columns=[{"name": i, "id": i} for i in df.columns],  # This creates an ID for each column so that I can call them later (eg. define column width)
-                            # data=df.to_dict('records'), page_size=20,
-
-
-
-                            # columns=[{"name": i, "id": i} for i in df.columns[20:40]],  # This creates an ID for each column so that I can call them later (eg. define column width)
-
                             columns=column_settings,
-                            data=df[[col["id"] for col in column_settings]].to_dict('records'),
+                            data=df[[col["id"] for col in column_settings]].fillna("").to_dict('records'),
 
                             page_size=20,
                             style_table={'overflowX': 'auto'},  # Allows horizontal scrolling
-                            style_cell_conditional=[{'if': {'column_id': 'pmid'},
-                                                     'width': 1000}],  # Set initial width of Reference column
-                            style_cell={'overflow':'hidden', 'textOverflow':'ellipsis','maxWidth':500},
+                            style_cell_conditional=[
+                                {'if': {'column_id': 'row_id'}, 'display': 'None'},  # Important to keep in data variable
+
+                                {'if': {'column_id': 'pmid_hyperlink'},
+                                 'width': 1000,
+                                 },  # Actual formatting
+                            ],
+                            style_cell={'overflow': 'hidden',
+                                        'textOverflow': 'ellipsis',
+                                        'maxWidth': 500,
+                                        },
+
                             editable=False,
                             # column_selectable="single",
-                            sort_action="native",
+                            sort_action="custom",
                             row_selectable="multiple",
                             filter_action="native",
                             page_action="native",
-                        )], id="table_col")
+                        )], id="table_div")
+
+    return layout
+
+
+def dashboard_content(df, column_settings):
+
+    layout = html.Div([
+        datatable(df, column_settings),
+    ])
+
+    return layout
+
+
+def dashboard_plots():
+
+    layout = html.Div(
+        [
+            dcc.Graph(id="dashboard-plot"),
+        ]
+    )
+
+    return layout
+
+
+def dashboard_plot_options_button():
+
+    l = dcc.Dropdown(
+        id='plot-xaxis-dropdown',
+        placeholder='Plot against:',
+        options=[{'label': "Dose", 'value': "dose"},
+                 {'label': "Gestational Age", 'value': "gestational_age"}],
+        # value=[],
+        clearable=True,
+        multi=False,
+        className='small-dropdown',
+    )
+
+    return l
+
+
+def dashboard_plot_div():
+    layout = html.Div(
+        [
+            dashboard_plot_options_button(),
+            dashboard_plots(),
+        ]
+    )
 
     return layout
 
@@ -254,111 +317,17 @@ def error_404_page():
     return layout
 
 
-def ag_grid_layout(df):
-
-    layout = html.Div(
-    [
-        # Filter dropdowns
-        html.Div(
-        [
-            # Study Type
-            html.Div(
-            [
-                dcc.Dropdown(
-                    id='study-type-dropdown',
-                    placeholder='Study Type',
-                    options=[{'label': i, 'value': i} for i in df['Study Type'].unique()],
-                    value=[],
-                    clearable=True,
-                    multi=True,
-                    className='small-dropdown',
-                ),
-            ],),
-
-            # Drug
-            html.Div(
-            [
-                dcc.Dropdown(
-                    id='drug-dropdown',
-                    placeholder='Drug',
-                    options=[{'label': i, 'value': i} for i in df['Drug'].unique()],
-                    value=[],
-                    clearable=False,
-                    multi=True,
-                    className='small-dropdown',
-                ),
-            ],),
-
-            # Option 3
-            html.Div(
-            [
-                dcc.Dropdown(
-                    id='drug-dropdown-2',
-                    placeholder='Option 3',
-                    options=[{'label': 'Option 1', 'value': 'Option 1'}],
-                    value=[],
-                    clearable=False,
-                    multi=True,
-                    className='small-dropdown',
-                ),
-            ],),
-
-        ],
-            style={'width': '100%', 'display': 'flex', 'margin-bottom': '40px'}),
-
-        # Actual Data Table
-        html.Div([
-            dag.AgGrid(
-                id='table',
-                rowData=df.to_dict("records"),
-                columnDefs=[{"field": i} for i in df.columns],
-                dashGridOptions={'pagination': True}
-            )], )
-    ],
-)
-
-    # @callback(
-    #     Output('table', 'data'),
-    #     [Input('study-type-dropdown', 'value'), Input('drug-dropdown', 'value')]
-    # )
-    # def update_table(selected_study_types, selected_drugs):
-    #     filtered_df = df.copy()
-    #     if selected_study_types:
-    #         filtered_df = filtered_df[filtered_df['Study Type'].isin(selected_study_types)]
-    #     if selected_drugs:
-    #         filtered_df = filtered_df[filtered_df['Drug'].isin(selected_drugs)]
-    #     return filtered_df.to_dict('records')
-    #
-    # return layout
-
-
-# def ag_grid_layout(df):
+# def data_ag_grid(df, column_settings):
 #
-#     layout = html.Div([
-#         html.Div(children='Drug:'),
-#         dcc.Dropdown(
-#             id='drug-dropdown',
-#             options=[{'label': 'Any', 'value': 'Any'}] + [{'label': i, 'value': i} for i in df['Drug'].unique()[:100]],
-#             value='Any',
-#             clearable=False,
-#         ),
-#
-#         dag.AgGrid(
-#             id='table',
-#             rowData=df.to_dict("records"),
-#             columnDefs=[{"field": i} for i in df.columns],
-#             dashGridOptions={'pagination': True}
+#     layout = html.Div(
+#         [
+#             dag.AgGrid(
+#                 id='table',
+#                 rowData=df[[col["id"] for col in column_settings]].to_dict("records"),
+#                 columnDefs=[{"field": i} for i in df[[col["id"] for col in column_settings]].columns],
+#                 dashGridOptions={'pagination': True}
 #             )
-#     ])
-#
-#     @callback(
-#         Output("table", "rowData"),
-#         [Input("drug-dropdown", 'value')]
+#         ],
 #     )
-#     def update_table(selected_drug):
-#         filtered_df = df.copy()
-#         if selected_drug != 'Any':
-#             filtered_df = filtered_df[filtered_df['Drug'] == selected_drug]
-#         return filtered_df.to_dict('records')
 #
-#     app.run(debug=True)
+#     return layout

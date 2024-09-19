@@ -39,7 +39,7 @@ front_end = [
     "flask-restful",
     "pint"
 ]
-data_transformation = ["pint", "pycountry"]
+data_transformation = ["pint", "pycountry", "openpyxl"]
 all = [
     "Bio",
     "biopython",
