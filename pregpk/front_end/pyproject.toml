@@ -1,0 +1,10 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+    "plotly",
+    "dash", "dash-ag-grid", "dash-bootstrap-components",
+    "flask", "flask-restful"
+]
