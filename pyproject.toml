@@ -15,6 +15,9 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
+[tool.setuptools.package-data]
+pregpk = ["assets/*.txt"]
+
 # Specify common dependencies
 dependencies = [
     "requests", "numpy", "pandas", "pint"
