@@ -3,6 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
+name = "pregpk_front_end"
 dependencies = [
     "plotly",
     "dash", "dash-ag-grid", "dash-bootstrap-components",
