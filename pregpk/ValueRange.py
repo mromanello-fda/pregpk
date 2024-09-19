@@ -53,18 +53,9 @@ class ValueRange:
         # self._re_any_unit_string = unit_utils.get_any_units_re()
         self._re_any_ineq_float = '[<>]' + self._re_any_float
 
-        # Bracketed building blocks
-        # self._re_brac_float = '[/[]' + self._re_any_spaces + self._re_any_float + self._re_any_spaces + '[\]]'
-        # self._re_brac_units = '[/[]' + self._re_any_spaces + self._re_any_unit_string + self._re_any_spaces + '[\]]'
-        # self._re_parenth_float = '[/(]' + self._re_any_spaces + self._re_any_float + self._re_any_spaces + '[\)]'
-        # self._re_parenth_units = '[/(]' + self._re_any_spaces + self._re_any_unit_string + self._re_any_spaces + '[\)]'
-
         # Longer formats that might need to be recognized
         self._re_hyphen_range = self._re_any_float + '-' + self._re_any_float
         self._re_pm_range = self._re_any_float + self._re_any_spaces + '\u00B1' + self._re_any_spaces + self._re_any_float
-
-    # def _is_unit_re(self, text):
-    #     return re.match(f"^{self._re_any_unit_string}$", text) is not None
 
     def _is_unit(self, text):
         try:

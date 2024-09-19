@@ -17,7 +17,7 @@ classifiers = [
 
 # Specify common dependencies
 dependencies = [
-    "requests", "numpy", "pandas"
+    "requests", "numpy", "pandas", "pint"
 ]
 
 [project.optional-dependencies]
@@ -37,7 +37,6 @@ front_end = [
     "plotly",
     "flask",
     "flask-restful",
-    "pint"
 ]
 data_transformation = ["pint", "pycountry", "openpyxl"]
 all = [
@@ -52,6 +51,5 @@ all = [
     "plotly",
     "flask",
     "flask-restful",
-    "pint",
     "pycountry"
 ]
