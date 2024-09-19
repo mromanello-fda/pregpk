@@ -4,6 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pregpk_front_end"
+version = "0.1"
 dependencies = [
     "plotly",
     "dash", "dash-ag-grid", "dash-bootstrap-components",
