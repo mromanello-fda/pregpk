@@ -10,3 +10,6 @@ dependencies = [
     "dash", "dash-ag-grid", "dash-bootstrap-components",
     "flask", "flask-restful"
 ]
+
+[tool.setuptools.package-data]
+pregpk_front_end = ["assets/*.txt", "assets/*.json"]

@@ -6,9 +6,13 @@ def filter_df(df, filter_dict):
         df = df[df['drug'].isin(filter_dict["drug"])]
     if filter_dict["disease_condition"]:
         df = df[df['disease_condition'].isin(filter_dict["disease_condition"])]
+    if filter_dict["route"]:
+        df = df[df['route'].isin(filter_dict["route"])]
 
     if filter_dict["gest_age_range"] != [-10, 60]:  # TODO: Shouldn't hard code this?
         df = df[(df["gestational_age_vr"] >= filter_dict["gest_age_range"][0]) & (df["gestational_age_vr"] <= filter_dict["gest_age_range"][1])]
+    if filter_dict["pub_year_range"] != [df["pub_year"].min(), df["pub_year"].max()]:  # TODO: Shouldn't hard code this?
+        df = df[(df["pub_year"] >= filter_dict["pub_year_range"][0]) & (df["pub_year"] <= filter_dict["pub_year_range"][1])]
 
     return df
 
@@ -46,3 +50,6 @@ def sort_df(df, sort_dict):
             )
 
     return df
+
+
+

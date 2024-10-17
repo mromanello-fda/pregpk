@@ -8,4 +8,3 @@ def load_pkdb_from_local_csv(csv_path:str) -> pd.DataFrame:
     df['pmid'] = df['pmid'].fillna(value='')
 
     return df
-

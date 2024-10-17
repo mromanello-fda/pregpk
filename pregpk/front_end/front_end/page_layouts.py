@@ -1,5 +1,6 @@
 import os
 import json
+import math
 import pandas as pd
 import plotly
 import plotly.io as pio
@@ -84,7 +85,7 @@ def dashboard_sidebar(df):
                               options=[{"label": "Include back-end columns (not working yet)", "value": "include"}],
                               value=[]
                               ),
-                ], style={"text-align": "center"})
+                ], style={"text-align": "center", "padding-top": "100px"})
 
             ], id="dashboard-sidebar-content", style={"padding-top": "10px"})
 
@@ -94,6 +95,10 @@ def dashboard_sidebar(df):
 
 
 def dashboard_filters(df):
+
+    # TODO: Values for sliders (min, max, unique, etc.) should not have to be computed every time this funciton
+    #  is called. In future, go through every function in layout that should only be called once and do so before
+    #  the site is built (and then import values), maybe do it with __init__.py?
 
     layout = html.Div(
     [
@@ -124,6 +129,20 @@ def dashboard_filters(df):
                 className='small-dropdown',
             ),
         ],),
+
+        # Administration Route
+        html.Div(
+            [
+                dcc.Dropdown(
+                    id='route-dropdown',
+                    placeholder='Route of Administration',
+                    options=[{'label': i, 'value': i} for i in df['route'].unique()],
+                    value=[],
+                    clearable=True,
+                    multi=True,
+                    className='small-dropdown',
+                ),
+            ], ),
 
         # Disease/Condition Indicated
         html.Div(
@@ -160,8 +179,26 @@ def dashboard_filters(df):
                 },
                 tooltip={"placement": "top", "always_visible": False}
             ),
-        ],),
-    ], id="dashboard_filters", style={"height": "100%", "margin-top":"25px", "padding-bottom": "100px"})
+        ], style={"margin-bottom": "75px"}),
+
+        # Year of publication
+        html.Div(
+            [
+                html.Div(["Year of Publication:"]),
+                dcc.RangeSlider(
+                    id="pub-year-range-slider",
+                    min=df["pub_year"].min(),
+                    max=df["pub_year"].max(),
+                    step=1,
+                    value=[df["pub_year"].min(), df["pub_year"].max()],  # "Snapping" values
+                    marks={val: {"label": f"{val}"} for val in
+                           [dec*10 for dec in range(math.ceil((df["pub_year"].min()+1)/10), math.floor((df["pub_year"].max()-1)/10)+1)]  # +1 and -1 to make sure values not repeated
+                           },
+                    tooltip={"placement": "top", "always_visible": False}
+                ),
+            ],)
+
+    ], id="dashboard_filters", style={"height": "100%", "margin-top":"25px"})
 
     return layout
 
@@ -234,15 +271,29 @@ def dashboard_plots():
 
 def dashboard_plot_options_button():
 
-    l = dcc.Dropdown(
-        id='plot-xaxis-dropdown',
-        placeholder='Plot against:',
-        options=[{'label': "Dose", 'value': "dose"},
-                 {'label': "Gestational Age", 'value': "gestational_age"}],
-        # value=[],
-        clearable=True,
-        multi=False,
-        className='small-dropdown',
+    l = html.Div(
+        [
+            dcc.Dropdown(
+                id='plot-xaxis-dropdown',
+                placeholder='Plot against:',
+                options=[{'label': "Dose", 'value': "dose"},
+                         {'label': "Gestational Age", 'value': "gestational_age"}],
+                # value=[],
+                clearable=True,
+                multi=False,
+                className='small-dropdown',
+            ),
+            dcc.Dropdown(
+                id='plot-groupby-dropdown',
+                placeholder='Group data by:',
+                options=[{'label': "Dose", 'value': "dose"},
+                         {'label': "Study Type", 'value': "study_type"}],
+                # value=[],
+                clearable=True,
+                multi=False,
+                className='small-dropdown',
+            )
+        ]
     )
 
     return l
