@@ -61,7 +61,7 @@ def get_param_plot_args(df, x_axis, group_by):
             iy = i_group_df[col].tolist()
 
             if x_axis in x_axis_to_col_name:
-                ix = idf[x_axis_to_col_name[x_axis]]
+                ix = i_group_df[x_axis_to_col_name[x_axis]]
             else:
                 ix = [0]*len(iy)
 
