@@ -21,7 +21,7 @@ def get_param_plot_args(df, x_axis, group_by):
     # Reminder: this df is already filtered for only rows with the most common dimensionality
 
     params = ["auc", "c_min", "c_max", "t_half", "t_max", "cl"]
-    cols = (f"{i}_stdized_val" for i in params)
+    cols = tuple(f"{i}_stdized_val" for i in params)
 
     x_axis_to_col_name = {
         "dose": "dose_stdized_val",
@@ -45,7 +45,8 @@ def get_param_plot_args(df, x_axis, group_by):
         idxs, bounds = get_group_idxs_and_bounds_by_pctile(df, col="dose_stdized_val", n_groups=5)
         for i_idx, i_bound in zip(idxs, bounds):
             group_args.append({"df_idxs": i_idx,
-                               "group_name": f"Dose: {i_bound[0]:.4g} - {i_bound[1]}"})
+                               # TODO: unit and number of sig figs hard coded; should dynamically update
+                               "group_name": f"Dose: {i_bound[0]:.4g} - {i_bound[1]:.4g} mg"})
 
     if group_by == "gestational_age":
         group_args = []
@@ -56,8 +57,8 @@ def get_param_plot_args(df, x_axis, group_by):
         i_lg = igroup["group_name"]
 
         for col in cols:
-            idf = i_group_df.dropna(axis=0, subset=[col])
-            iy = idf[col].tolist()
+            # idf = i_group_df.dropna(axis=0, subset=[col])  # TODO: might be unnecessary now that filtering is done before. Might help speed by reducing number of points to plot though?
+            iy = i_group_df[col].tolist()
 
             if x_axis in x_axis_to_col_name:
                 ix = idf[x_axis_to_col_name[x_axis]]

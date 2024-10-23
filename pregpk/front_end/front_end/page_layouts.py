@@ -9,6 +9,9 @@ from dash import Dash, html, dash_table, dcc, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 import dash_ag_grid as dag
 
+# TODO: Look at fluid=True argument in divs and other dbc/Dash components
+# TODO: Look at dbc.Container instead of div?? Supposedly has several benefits
+
 
 def logo():
 
@@ -102,20 +105,6 @@ def dashboard_filters(df):
 
     layout = html.Div(
     [
-        # Study Type
-        html.Div(
-        [
-            dcc.Dropdown(
-                id='study-type-dropdown',
-                placeholder='Study Type',
-                options=[{'label': i, 'value': i} for i in df['study_type'].unique()],
-                value=[],
-                clearable=True,
-                multi=True,
-                className='small-dropdown',
-            ),
-        ],),
-
         # Drug
         html.Div(
         [
@@ -123,6 +112,20 @@ def dashboard_filters(df):
                 id='drug-dropdown',
                 placeholder='Drug',
                 options=[{'label': i, 'value': i} for i in df['drug'].unique()],
+                value=[],
+                clearable=True,
+                multi=True,
+                className='small-dropdown',
+            ),
+        ],),
+
+        # Disease/Condition Indicated
+        html.Div(
+        [
+            dcc.Dropdown(
+                id='disease-dropdown',
+                placeholder='Disease/Condition Indicated',
+                options=[{'label': i, 'value': i} for i in df['disease_condition'].unique() if len(str(i))<50],
                 value=[],
                 clearable=True,
                 multi=True,
@@ -144,19 +147,19 @@ def dashboard_filters(df):
                 ),
             ], ),
 
-        # Disease/Condition Indicated
+        # Study Type
         html.Div(
-        [
-            dcc.Dropdown(
-                id='disease-dropdown',
-                placeholder='Disease/Condition Indicated',
-                options=[{'label': i, 'value': i} for i in df['disease_condition'].unique() if len(str(i))<50],
-                value=[],
-                clearable=True,
-                multi=True,
-                className='small-dropdown',
-            ),
-        ],),
+            [
+                dcc.Dropdown(
+                    id='study-type-dropdown',
+                    placeholder='Study Type',
+                    options=[{'label': i, 'value': i} for i in df['study_type'].unique()],
+                    value=[],
+                    clearable=True,
+                    multi=True,
+                    className='small-dropdown',
+                ),
+            ], ),
 
         # Gestational Age
         html.Div(
@@ -285,7 +288,7 @@ def dashboard_plot_options_button():
             ),
             dcc.Dropdown(
                 id='plot-groupby-dropdown',
-                placeholder='Group data by:',
+                placeholder='Group data by: (under construction)',
                 options=[{'label': "Dose", 'value': "dose"},
                          {'label': "Study Type", 'value': "study_type"}],
                 # value=[],
