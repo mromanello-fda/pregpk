@@ -1,4 +1,5 @@
 import numpy as np
+import plotly.colors as pcolors
 
 
 def row_and_col_subplot_positions(n_rows, n_cols, direction="horizontal"):
@@ -17,7 +18,8 @@ def row_and_col_subplot_positions(n_rows, n_cols, direction="horizontal"):
     return rows, cols
 
 
-def get_param_plot_args(df, x_axis, group_by):
+def get_param_plot_group_args(df, x_axis, group_by, n_groups):
+    # TODO: need to document this better; variable names are not descriptive at all.
     # Reminder: this df is already filtered for only rows with the most common dimensionality
 
     params = ["auc", "c_min", "c_max", "t_half", "t_max", "cl"]
@@ -28,33 +30,34 @@ def get_param_plot_args(df, x_axis, group_by):
         "gestational_age": "gestational_age_stdized_val"
     }
 
-    # Plot args: needs x, y, name, legend/legendgroup?
-
-    # Let's assume for now very simple; only parameters on y, x=0. But handle np.nans.
-
-    plot_args = []
-    # group_args = get_group_args(df, group_by, n_groups=5)
-
     if not group_by:
         group_args = [{"df_idxs": df.index.tolist(),
                        "group_name": "",
+                       "color": "rgba(0, 0, 256, 0.5)"
                        }]
 
     if group_by == "dose":
         group_args = []
         idxs, bounds = get_group_idxs_and_bounds_by_pctile(df, col="dose_stdized_val", n_groups=5)
-        for i_idx, i_bound in zip(idxs, bounds):
+        colors = interpolate_colors([0, 0, 256, 0.5], [256, 0, 0, 0.5], n_groups)
+        for i_idx, i_bound, color in zip(idxs, bounds, colors):
             group_args.append({"df_idxs": i_idx,
                                # TODO: unit and number of sig figs hard coded; should dynamically update
-                               "group_name": f"Dose: {i_bound[0]:.4g} - {i_bound[1]:.4g} mg"})
+                               "group_name": f"Dose: {i_bound[0]:.4g} - {i_bound[1]:.4g} mg",
+                               "color": color,
+                               })
 
     if group_by == "gestational_age":
         group_args = []
         idxs, bounds = get_group_idxs_and_bounds_by_trimester(df)
 
-    for igroup in group_args:
-        i_group_df = df.loc[igroup["df_idxs"]]
-        i_lg = igroup["group_name"]
+    plot_group_args = []
+    for ig, i_group_args in enumerate(group_args):
+        i_group_df = df.loc[i_group_args["df_idxs"]]
+        i_lg = i_group_args["group_name"]
+        color = i_group_args["color"]
+
+        group = []
 
         for col in cols:
             # idf = i_group_df.dropna(axis=0, subset=[col])  # TODO: might be unnecessary now that filtering is done before. Might help speed by reducing number of points to plot though?
@@ -65,11 +68,13 @@ def get_param_plot_args(df, x_axis, group_by):
             else:
                 ix = [0]*len(iy)
 
-            plot_args.append(
-                {"x": ix, "y": iy, "legendgroup": i_lg}
+            group.append(
+                {"x": ix, "y": iy, "legendgroup": i_lg, "color": color}
             )
 
-    return plot_args
+        plot_group_args.append(group)
+
+    return plot_group_args
 
 
 def get_group_args(df, group_by, n_groups=5):
@@ -111,3 +116,30 @@ def get_group_idxs_and_bounds_by_pctile(df, col, n_groups):
     idxs[-1].extend(df[df[col] >= pctile_values[-1]].index.tolist())
 
     return idxs, bounds
+
+
+def interpolate_colors(c1, c2, n):
+    # TODO: Add ValueErrors if c1, c2 have RBG values greater than [256, 256, 256, 1] or are not length 3 or 4
+    #  (if 3, assume a=1)
+    """
+    Generates a list of colors that interpolate between color1 and color2.
+
+    Parameters:
+    - color1: Starting color in RGBA format (e.g., [1, 0, 0, 1]).
+    - color2: Ending color in RGBA format (e.g., [0, 0, 1, 1]).
+    - n: Number of colors to generate.
+    - output: "rgba" for RGBA output or "hex" for hex color output.
+
+    Returns:
+    - List of colors in the specified format.
+    """
+    # Convert colors to numpy arrays
+    c1 = np.array(c1)
+    c2 = np.array(c2)
+
+    # Interpolate each component (R, G, B, A) between color1 and color2
+    interpolated_colors = np.array([
+        (1 - i) * c1 + i * c2 for i in np.linspace(0, 1, n)
+    ])
+
+    return [f"rgba({color[0]:.0f}, {color[1]:.0f}, {color[2]:.0f}, {color[3]})" for color in interpolated_colors]
