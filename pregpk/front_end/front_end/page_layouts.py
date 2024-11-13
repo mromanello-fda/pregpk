@@ -50,11 +50,11 @@ def get_navbar():
     return navbar
 
 
-def dashboard(df, column_settings):
+def dashboard(df, column_settings, dropdowns):
 
     layout = dbc.Row([
 
-        dashboard_sidebar(df),
+        dashboard_sidebar(df, dropdowns),
         dashboard_data_column(df, column_settings)
 
     ], style={"height": "100vh", "width": "100vw", "margin-left": "0px"})
@@ -62,7 +62,7 @@ def dashboard(df, column_settings):
     return layout
 
 
-def dashboard_sidebar(df):
+def dashboard_sidebar(df, dropdowns):
 
     layout = html.Div(
         [
@@ -77,7 +77,7 @@ def dashboard_sidebar(df):
 
         html.Div(
             [
-            dashboard_filters(df),
+            dashboard_filters(df, dropdowns),
             html.Div(
                 [
                 dbc.Button(children="Download as .csv",
@@ -97,7 +97,7 @@ def dashboard_sidebar(df):
     return layout
 
 
-def dashboard_filters(df):
+def dashboard_filters(df, dropdowns):
 
     # TODO: Values for sliders (min, max, unique, etc.) should not have to be computed every time this funciton
     #  is called. In future, go through every function in layout that should only be called once and do so before
@@ -111,7 +111,8 @@ def dashboard_filters(df):
             dcc.Dropdown(
                 id='drug-dropdown',
                 placeholder='Drug',
-                options=[{'label': i, 'value': i} for i in df['drug'].unique()],
+                # options=[{'label': i, 'value': i} for i in df['drug'].unique()],
+                options=[{'label': key, 'value': val} for key, val in dropdowns["drug"].items()],
                 value=[],
                 clearable=True,
                 multi=True,
@@ -174,8 +175,8 @@ def dashboard_filters(df):
                 marks={
                     -10: {"label": "Non-Pregnant", "style": {"transform": "rotate(-90deg) translate(-40px, -40px)", "white-space": "nowrap"}},
                     0: {"label": "0"},
-                    14: {"label": "T1"},
-                    28: {"label": "T2"},
+                    13: {"label": "T1"},
+                    27: {"label": "T2"},
                     40: {"label": "T3"},
                     50: {"label": "Delivery", "style": {"transform": "rotate(-90deg) translate(-20px, -20px)", "white-space": "nowrap"}},
                     60: {"label": "Postpartum", "style": {"transform": "rotate(-90deg) translate(-30px, -30px)", "white-space": "nowrap"}},

@@ -171,6 +171,9 @@ def standardize_column_names(df):
                           'Other Maternal PK Data (Units)': 'other_pk_data',
                           'Time after dose': 'time_after_dose',
                           'Doses taken previously': 'doses_taken_previously',
+                          'Fetal PK Data': 'fetal_pk_data',
+                          'When Fetal PK Data was taken': 'when_fetal_data_was_taken',
+                          'Maternal Fetal Ratio': 'maternal_fetal_ratio',
                           'Infant PK Data': 'infant_pk_data',
                           'Plasma Conc-Time curve? (Y/N) ': 'has_plasma_conc_time_curve',
                           'Notes': 'notes',
@@ -178,6 +181,7 @@ def standardize_column_names(df):
                           'ATC Code': 'atc_code',
                           'Language': 'language',
                           'Unnamed: 35': 'notes_2',
+                          'Unnamed: 37': 'notes_3',
                           }
 
     missing_columns = set(df.columns) - set(column_name_mapper.keys())
@@ -196,6 +200,7 @@ def standardize_column_dtypes(df):
     df['pmid'] = df['pmid'].astype(str)
     df['gestational_age'] = df['gestational_age'].astype(str)
     df['maternal_age'] = df['maternal_age'].astype(str)
+    df['drug'] = df['drug'].astype(str)
     df['dose'] = df['dose'].astype(str)
     df['c_max'] = df['c_max'].astype(str)
     df['auc'] = df['auc'].astype(str)
@@ -203,6 +208,7 @@ def standardize_column_dtypes(df):
     df['t_half'] = df['t_half'].astype(str)
     df['cl'] = df['cl'].astype(str)
     df['c_min'] = df['c_min'].astype(str)
+    df['gsrs_unii'] = df['gsrs_unii'].astype(str)
 
     return df
 
@@ -215,19 +221,13 @@ def standardize_values(df, standard_values_directory):
     df['n'] = df['n'].apply(lambda raw_n: standardize_n(raw_n))
     df = df.apply(lambda row: standardize_maternal_or_fetal_data(row), axis=1)
     df = df.apply(lambda row: standardize_trimesters(row), axis=1)
+    df['drug'] = df['drug'].str.strip()
+
+    df['drug_hyperlink'] = df.apply(lambda row: f"[{row['drug']}](https://gsrs.ncats.nih.gov/ginas/app/ui/substances/{row['gsrs_unii']})", axis=1)
 
     dose_dimensions = ["[time]", "[mass]", "[length]", "[substance]", ""]  # Include dimensionless
     df = df.apply(lambda row: standardize_dose(row, dose_dimensions), axis=1)
-
-    # df["dose_vr"] = df["dose"].apply(convert_to_ValueRange).apply(
-    #     lambda x: check_ValueRange_for_expected_dimensions(x, dose_dimensions) if isinstance(x, ValueRange)
-    #     else np.nan
-    # )
-
-    # gestational_age_dimensions = ["[time]", ""]
     df = df.apply(lambda row: standardize_gestational_age(row), axis=1)
-    # df["gestational_age_vr"] = df["gestational_age"].apply(convert_to_GestAgeValueRange)
-    # df["gestational_age_stdized_val"] = df["gestational_age_vr"].astype(float)
 
     # Handle parameters
     params = ['c_max', 'auc', 't_max', 't_half', 'cl', 'c_min']
@@ -362,33 +362,33 @@ def standardize_maternal_or_fetal_data(row):
     return row
 
 
-def standardize_gestational_age(row):
-    # I'm thinking the best way to do this is to have a few separate columns;
-    # 1. non-pregnant
-    # 2. gestational_age_min
-    # 3. gestational_age_max
-    # 4. Delivery
-    # 5. Postpartum
-
-    raw_ga = row['gestational_age']
-
-    row['has_non_pregnant_data'] = False
-    row['gestational_age_min'] = np.nan
-    row['gestational_age_max'] = np.nan
-    row['has_delivery_data'] = False
-    row['has_postpartum_data'] = False
-
-    if isinstance(raw_ga, str):
-        if raw_ga in ['Non-Pregnant', 'Delivery', 'Postpartum']:  # Most common ones
-            if raw_ga == 'Non-Pregnant':
-                row['has_non_pregnant_data'] = True
-            elif raw_ga == 'Delivery':
-                row['has_delivery_data'] = True
-            elif raw_ga == 'Postpartum':
-                row['has_postpartum_data'] = True
-            return row
-
-    return row
+# def standardize_gestational_age(row):
+#     # I'm thinking the best way to do this is to have a few separate columns;
+#     # 1. non-pregnant
+#     # 2. gestational_age_min
+#     # 3. gestational_age_max
+#     # 4. Delivery
+#     # 5. Postpartum
+#
+#     raw_ga = row['gestational_age']
+#
+#     row['has_non_pregnant_data'] = False
+#     row['gestational_age_min'] = np.nan
+#     row['gestational_age_max'] = np.nan
+#     row['has_delivery_data'] = False
+#     row['has_postpartum_data'] = False
+#
+#     if isinstance(raw_ga, str):
+#         if raw_ga in ['Non-Pregnant', 'Delivery', 'Postpartum']:  # Most common ones
+#             if raw_ga == 'Non-Pregnant':
+#                 row['has_non_pregnant_data'] = True
+#             elif raw_ga == 'Delivery':
+#                 row['has_delivery_data'] = True
+#             elif raw_ga == 'Postpartum':
+#                 row['has_postpartum_data'] = True
+#             return row
+#
+#     return row
 
 
 def standardize_trimesters(df):
@@ -479,3 +479,22 @@ def convert_yn_to_bool(val):
         return False
 
     raise ValueError(f"Unable to convert value {val} to boolean, since either y/Y/n/N are assumed.")
+
+
+def get_drug_dropdown_json_from_gsrs(df, json_save_path,
+                                     null_gsrs_vals=("", "non-approved record", "nan")):
+
+    # TODO: Deal with values without UNIIs
+    grouped = df.groupby('gsrs_unii')['drug'].apply(lambda x: x.value_counts().index.tolist())
+
+    # Create the dictionary mapping by joining names in each list by slashes
+    # By ChatGPT
+    drug_to_unii = {"/".join(drugs): unii for unii, drugs in sorted(grouped.items())}
+    drug_to_unii = dict(sorted(drug_to_unii.items(), key=lambda item: item[0].lower()))
+
+    with open(json_save_path, 'w') as json_file:
+        json.dump(drug_to_unii, json_file, indent=4)
+
+    return
+
+

@@ -50,6 +50,13 @@ def get_param_plot_group_args(df, x_axis, group_by, n_groups):
     if group_by == "gestational_age":
         group_args = []
         idxs, bounds = get_group_idxs_and_bounds_by_trimester(df)
+        colors = interpolate_colors([0, 0, 256, 0.5], [256, 0, 0, 0.5], n=6)
+        for i_idx, i_bound, color in zip(idxs, bounds, colors):
+            group_args.append({"df_idxs": i_idx,
+                               # TODO: unit and number of sig figs hard coded; should dynamically update
+                               "group_name": f"{i_bound}",
+                               "color": color,
+                               })
 
     plot_group_args = []
     for ig, i_group_args in enumerate(group_args):
@@ -77,31 +84,6 @@ def get_param_plot_group_args(df, x_axis, group_by, n_groups):
     return plot_group_args
 
 
-def get_group_args(df, group_by, n_groups=5):
-
-    if not group_by:
-        return [{"df_idxs": df.index.tolist(),
-                 "group_name": "",
-                 }]
-
-    group_idxs, group_bounds = get_group_idxs_and_bounds(df, group_by, n_groups)
-
-    return group_args
-
-
-def get_group_idxs_and_bounds(df, group_by, n_groups=5):
-
-    # TODO: List of ways that you would group data by that would not simply be by percentiles
-    if group_by == "gestational_age":
-        pass
-
-    if group_by == "dose":
-        col_name = "dose_stdized_val"
-        return get_group_idxs_and_bounds_by_pctile(df, col_name, n_groups)
-
-    return
-
-
 def get_group_idxs_and_bounds_by_pctile(df, col, n_groups):
 
     pctiles = np.linspace(0, 100, n_groups+1)
@@ -114,6 +96,11 @@ def get_group_idxs_and_bounds_by_pctile(df, col, n_groups):
             df[(df[col] >= min_bound) & (df[col] < max_bound)].index.tolist()
         )
     idxs[-1].extend(df[df[col] >= pctile_values[-1]].index.tolist())
+
+    return idxs, bounds
+
+
+def get_group_idxs_and_bounds_by_trimester(df, col, n_groups):
 
     return idxs, bounds
 
