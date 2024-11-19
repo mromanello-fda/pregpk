@@ -291,7 +291,7 @@ def dashboard_plot_options_button():
                 id='plot-groupby-dropdown',
                 placeholder='Group data by: (under construction)',
                 options=[{'label': "Dose", 'value': "dose"},
-                         {'label': "Study Type", 'value': "study_type"}],
+                         {'label': "Gestational Age", 'value': "gestational_age"}],
                 # value=[],
                 clearable=True,
                 multi=False,

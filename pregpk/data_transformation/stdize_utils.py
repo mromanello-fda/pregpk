@@ -220,7 +220,7 @@ def standardize_values(df, standard_values_directory):
     df = df.apply(lambda row: standardize_study_type(row, standard_values_directory), axis=1)
     df['n'] = df['n'].apply(lambda raw_n: standardize_n(raw_n))
     df = df.apply(lambda row: standardize_maternal_or_fetal_data(row), axis=1)
-    df = df.apply(lambda row: standardize_trimesters(row), axis=1)
+    # df = df.apply(lambda row: standardize_trimesters(row), axis=1)
     df['drug'] = df['drug'].str.strip()
 
     df['drug_hyperlink'] = df.apply(lambda row: f"[{row['drug']}](https://gsrs.ncats.nih.gov/ginas/app/ui/substances/{row['gsrs_unii']})", axis=1)
@@ -362,54 +362,22 @@ def standardize_maternal_or_fetal_data(row):
     return row
 
 
-# def standardize_gestational_age(row):
-#     # I'm thinking the best way to do this is to have a few separate columns;
-#     # 1. non-pregnant
-#     # 2. gestational_age_min
-#     # 3. gestational_age_max
-#     # 4. Delivery
-#     # 5. Postpartum
-#
-#     raw_ga = row['gestational_age']
-#
-#     row['has_non_pregnant_data'] = False
-#     row['gestational_age_min'] = np.nan
-#     row['gestational_age_max'] = np.nan
-#     row['has_delivery_data'] = False
-#     row['has_postpartum_data'] = False
-#
-#     if isinstance(raw_ga, str):
-#         if raw_ga in ['Non-Pregnant', 'Delivery', 'Postpartum']:  # Most common ones
-#             if raw_ga == 'Non-Pregnant':
-#                 row['has_non_pregnant_data'] = True
-#             elif raw_ga == 'Delivery':
-#                 row['has_delivery_data'] = True
-#             elif raw_ga == 'Postpartum':
-#                 row['has_postpartum_data'] = True
-#             return row
-#
-#     return row
-
-
-def standardize_trimesters(df):
-    tri_cols = ['tri_0', 'tri_1', 'tri_2', 'tri_3', 'tri_other']
-    df[tri_cols] = df[tri_cols].apply(convert_yn_to_bool)
-
-    return df
-
-
-# TODO: It might actually be easier to just treat this like you treat dose but hard-code in the fact that it's weeks.
-#  As in, even if it is redundant, you can create a column with "gestational_age_dim" which should always be "[time]".
-#  The sorting and plotting functions you wrote for parameters and dose rely on that column existing, so you wouldn't
-#  require the additional functions you are now writing.
 def standardize_gestational_age(row):
 
     gvr = convert_to_GestAgeValueRange(row["gestational_age"])
+    row = pd.concat([row,
+                     pd.Series(index=["gestational_age_vr", "gestational_age_stdized_val", "has_non_pregnant",
+                                      "has_tri_1", "has_tri_2", "has_tri_3", "has_delivery", "has_postpartum"])])
 
     if isinstance(gvr, GestAgeValueRange):
         stdized_val = float(gvr)
+        row.loc[["has_non_pregnant", "has_tri_1", "has_tri_2", "has_tri_3", "has_delivery", "has_postpartum"]] = [
+            gvr.has_non_pregnant, gvr.has_tri_1, gvr.has_tri_2, gvr.has_tri_3, gvr.has_delivery, gvr.has_postpartum
+        ]
+
     else:
         stdized_val = np.nan
+        row.loc[["has_non_pregnant", "has_tri_1", "has_tri_2", "has_tri_3", "has_delivery", "has_postpartum"]] = False
 
     row["gestational_age_vr"] = gvr
     row["gestational_age_stdized_val"] = stdized_val

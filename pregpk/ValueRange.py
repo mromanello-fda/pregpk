@@ -60,7 +60,9 @@ class ValueRange:
     def _is_unit(self, text):
         try:
             u = self.ureg.parse_units(text)
-            if isinstance(u, pint.Unit) and not u.dimensionless:
+            # if isinstance(u, pint.Unit) and not u.dimensionless:
+            #     return True
+            if isinstance(u, pint.Unit):
                 return True
         except (pint.UndefinedUnitError, ValueError, TypeError):
             return False
@@ -283,17 +285,17 @@ class ValueRange:
 
 
 class GestAgeValueRange(ValueRange):
-    # TODO: Maybe instead of re-writing this with a lot of logic for non-pregnant, postpartum, etc. you can create
-    #  a "non-pregnant" or "postpartum" class that has a string representation of "Non-Pregnant", "Delivery", and
-    #  "Postpartum", but a float value of -1, 40, and 41
 
     def __init__(self, text):
         self.has_non_pregnant = False
+        self.has_tri_1 = False
+        self.has_tri_2 = False
+        self.has_tri_3 = False
         self.has_delivery = False
         self.has_postpartum = False
-        self.has_non_numeric = False
 
         super().__init__(text)
+        self._assign_trimester_bools()
 
         if self.unit is None:  # Assign unit of weeks if parsed a numerical value and does not have units
             if any(ele is not None for ele in [self.average, self.max, self.min, self.stdev]):
@@ -313,18 +315,43 @@ class GestAgeValueRange(ValueRange):
 
         return
 
+    def _assign_trimester_bools(self):
+
+        min_val = float(self.min) if self.min is not None else float(self.average)
+        max_val = float(self.max) if self.max is not None else float(self.average)
+
+        # Assign pregnancy trimesters
+        if not (max_val < 0 or min_val >= 14):
+            self.has_tri_1 = True
+        if not (max_val < 14 or min_val >= 28):
+            self.has_tri_2 = True
+        if not (max_val < 28 or min_val >= 40):
+            self.has_tri_3 = True
+
+        # If minimum or single value is NonPregnant, includes non-pregnant
+        if isinstance(self.min, NonPregnant) or isinstance(self.sort_val, NonPregnant):
+            self.has_non_pregnant = True
+
+        # If minimum, maximum or single value is Delivery, includes delivery
+        if isinstance(self.max, Delivery) or isinstance(self.min, Delivery) or isinstance(self.sort_val, Delivery):
+            self.has_delivery = True
+
+        # If maximum or single value is Postpartum, includes postpartum
+        if isinstance(self.max, Postpartum) or isinstance(self.sort_val, Postpartum):
+            self.has_postpartum = True
+
+            # If has postpartum and has something before delivery, also includes delivery
+            # TODO: Check with Emily; if has for example, tri_3 and postpartum, should delivery also be included?
+            if any([self.has_non_pregnant, self.has_tri_1, self.has_tri_2, self.has_tri_3]):
+                self.has_delivery = True
+
+        return
+
     def __repr__(self):
-        min_repr = "Non-Pregnant" if self.has_non_pregnant else self.min
-        if self.has_postpartum:
-            max_repr = "Postpartum"
-        elif self.has_delivery:
-            max_repr = "Delivery"
-        else:
-            max_repr = self.max
 
         print_dict = {"Average": self.average,
-                      "Min": min_repr,
-                      "Max": max_repr,
+                      "Min": self.min,
+                      "Max": self.max,
                       "Standard dev.": self.stdev,
                       "Units": self.unit}
 

@@ -36,7 +36,7 @@ def get_param_plot_group_args(df, x_axis, group_by, n_groups):
                        "color": "rgba(0, 0, 256, 0.5)"
                        }]
 
-    if group_by == "dose":
+    elif group_by == "dose":
         group_args = []
         idxs, bounds = get_group_idxs_and_bounds_by_pctile(df, col="dose_stdized_val", n_groups=5)
         colors = interpolate_colors([0, 0, 256, 0.5], [256, 0, 0, 0.5], n_groups)
@@ -47,13 +47,12 @@ def get_param_plot_group_args(df, x_axis, group_by, n_groups):
                                "color": color,
                                })
 
-    if group_by == "gestational_age":
+    elif group_by == "gestational_age":
         group_args = []
         idxs, bounds = get_group_idxs_and_bounds_by_trimester(df)
         colors = interpolate_colors([0, 0, 256, 0.5], [256, 0, 0, 0.5], n=6)
         for i_idx, i_bound, color in zip(idxs, bounds, colors):
             group_args.append({"df_idxs": i_idx,
-                               # TODO: unit and number of sig figs hard coded; should dynamically update
                                "group_name": f"{i_bound}",
                                "color": color,
                                })
@@ -100,7 +99,20 @@ def get_group_idxs_and_bounds_by_pctile(df, col, n_groups):
     return idxs, bounds
 
 
-def get_group_idxs_and_bounds_by_trimester(df, col, n_groups):
+def get_group_idxs_and_bounds_by_trimester(df, exclusive=False):
+
+    cols = ["has_non_pregnant", "has_tri_1", "has_tri_2", "has_tri_3", "has_delivery", "has_postpartum"]
+    tri_df = df[cols]
+
+    bounds = ["Non-Pregnant", "1st Trimester", "2nd Trimester", "3rd Trimester", "Delivery", "Postpartum"]
+    idxs = []
+    for col in cols:
+        if not exclusive:
+            idxs.append(tri_df[tri_df[col]].index.tolist())
+        if exclusive:  # Remove from every list of index any index that is found in other lists
+            idxs.append(df[
+                            (tri_df[col]) & (~tri_df.loc[:, df.columns != col].any(axis=1))
+            ])
 
     return idxs, bounds
 
