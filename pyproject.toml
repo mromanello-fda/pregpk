@@ -55,4 +55,4 @@ all = [
 ]
 
 [tool.setuptools.package-data]
-pregpk = ["assets/**/*.txt"]
+pregpk = ["assets/**/*.txt", "assets/**/*.json"]
