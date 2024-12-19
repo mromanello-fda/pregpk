@@ -26,9 +26,8 @@ def logo():
 def get_navbar():
     navbar = dbc.NavbarSimple(
         children=[
-            dbc.NavItem(dbc.NavLink("Home", href="/")),
-            dbc.NavItem(dbc.NavLink("PK Dashboard", href="/pk_dashboard")),
-            dbc.NavItem(dbc.NavLink("Plots", href="/plots")),
+            dbc.NavItem(dbc.NavLink("PK Dashboard", href="/pk-dashboard")),
+            dbc.NavItem(dbc.NavLink("About This Data", href="/about-this-data")),
             dbc.NavItem(dbc.NavLink("About Us", href="about-us")),
             dbc.NavItem(dbc.NavLink("Contact Us", href="contact")),
         ],
