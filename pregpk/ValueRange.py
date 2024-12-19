@@ -341,7 +341,8 @@ class GestAgeValueRange(ValueRange):
             self.has_postpartum = True
 
             # If has postpartum and has something before delivery, also includes delivery
-            # TODO: Check with Emily; if has for example, tri_3 and postpartum, should delivery also be included?
+            # TODO: This is wrong; should only include delivery if specifically mentioned
+            #  (ie. range including delivery but not explicitly saying it shoud be False)
             if any([self.has_non_pregnant, self.has_tri_1, self.has_tri_2, self.has_tri_3]):
                 self.has_delivery = True
 

@@ -268,9 +268,50 @@ def standardize_pmid(raw_pmid):
     return ''
 
 
+# def standardize_study_type(row, standard_values_directory):
+#
+#     known_sts = gen_utils.load_csv_to_list(os.path.join(standard_values_directory, 'study_types.csv'))
+#     sts_to_col_name = {i: f'is_{re.sub("[ -]", "_", i)}_study'.lower() for i in known_sts}
+#
+#     # Add new columns for OHE (indexes here because row is a series)
+#     row = pd.concat(
+#         [row,
+#          pd.Series({i: False for i in sts_to_col_name.values()}, dtype=bool)
+#          ]
+#     )
+#
+#     # Split into list of study types divided by " and " or comma
+#     raw_study_type = row['study_type'].lower().replace(' study', '')
+#     splits = [' and ', ',', ' & ']
+#     study_types = [i for i in split_by_substrings(raw_study_type, splits) if i]  # Split by substrings, remove empty strings
+#
+#     # Specific cases
+#     for i, st in enumerate(study_types):
+#         if st == 'cross-over':  # Standardize grammar
+#             study_types[i] = 'crossover'
+#         if st == 'pilot study':  # "Study" redundant
+#             study_types[i] = 'pilot'
+#
+#     # Check if all are within known study types
+#     for i, st in enumerate(study_types):
+#         if st not in known_sts:
+#             warnings.warn(f'Study type "{st}" not a known study type. Removing from study_type list. If correct, '
+#                           f'add to {standard_values_directory}/study_types.csv file.')
+#             study_types.pop(i)
+#
+#     for st in study_types:
+#         row[sts_to_col_name[st]] = True
+#
+#     return row
+#
+
+
 def standardize_study_type(row, standard_values_directory):
 
-    known_sts = gen_utils.load_csv_to_list(os.path.join(standard_values_directory, 'study_types.csv'))
+    with open(os.path.join(standard_values_directory, "study_types.json"), "r") as st_json:
+        study_types = json.load(st_json)
+
+    known_sts = study_types.keys()
     sts_to_col_name = {i: f'is_{re.sub("[ -]", "_", i)}_study'.lower() for i in known_sts}
 
     # Add new columns for OHE (indexes here because row is a series)
@@ -280,27 +321,21 @@ def standardize_study_type(row, standard_values_directory):
          ]
     )
 
-    # Split into list of study types divided by " and " or comma
-    raw_study_type = row['study_type'].lower().replace(' study', '')
-    splits = [' and ', ',']
-    study_types = [i for i in split_by_substrings(raw_study_type, splits) if i]  # Split by substrings, remove empty strings
+    found_study_types = []
+    for study_type, study_type_names in study_types.items():
+        for i_st_name in study_type_names:
+            if i_st_name in row["study_type"].lower():
+                found_study_types.append(i_st_name.capitalize())
+                row[sts_to_col_name[study_type]] = True
+                continue
 
-    # Specific cases
-    for i, st in enumerate(study_types):
-        if st == 'cross-over':  # Standardize grammar
-            study_types[i] = 'crossover'
-        if st == 'pilot study':  # "Study" redundant
-            study_types[i] = 'pilot'
+    if row["study_type"] and not found_study_types:
+        warnings.warn(f'Study type for {row["pmid"]} ({row["study_type"]}) is unparseable/unknown. \n'
+                      f'If this should be a valid study type, please edit/add to the '
+                      f'{standard_values_directory}/study_types.json file.')
 
-    # Check if all are within known study types
-    for i, st in enumerate(study_types):
-        if st not in known_sts:
-            warnings.warn(f'Study type "{st}" not a known study type. Removing from study_type list. If correct, '
-                          f'add to {standard_values_directory}/study_types.csv file.')
-            study_types.pop(i)
-
-    for st in study_types:
-        row[sts_to_col_name[st]] = True
+    # Actually edit the displayed cell (one of the few times I might do this)
+    row["study_type"] = ", ".join(found_study_types)
 
     return row
 

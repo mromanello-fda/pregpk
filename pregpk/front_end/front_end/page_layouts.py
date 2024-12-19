@@ -31,178 +31,360 @@ def get_navbar():
             dbc.NavItem(dbc.NavLink("Plots", href="/plots")),
             dbc.NavItem(dbc.NavLink("About Us", href="about-us")),
             dbc.NavItem(dbc.NavLink("Contact Us", href="contact")),
-            dbc.DropdownMenu(
-                children=[
-                    dbc.DropdownMenuItem("More pages", header=True),
-                    dbc.DropdownMenuItem("Page 3", href="/page-3"),
-                    dbc.DropdownMenuItem("Page 4", href="/page-4"),
-                ],
-                nav=True,
-                in_navbar=True,
-                label="More",
-            ),
         ],
         brand=logo(),
         brand_href="/",
         color="primary",
         dark=True,
+        style={
+            "position": "fixed",
+            "top": 0,
+            "width": "100%",
+            "zIndex": 1000,
+        }
     )
     return navbar
 
 
 def dashboard(df, column_settings, dropdowns):
 
-    layout = dbc.Row([
-
-        dashboard_sidebar(df, dropdowns),
-        dashboard_data_column(df, column_settings)
-
-    ], style={"height": "100vh", "width": "100vw", "margin-left": "0px"})
+    layout = html.Div(
+                [
+                    dashboard_sidebar(df, dropdowns),
+                    dashboard_data_column(df, column_settings)
+                ],
+                className="dashboard-container",
+    )
 
     return layout
 
 
 def dashboard_sidebar(df, dropdowns):
 
-    layout = html.Div(
-        [
-        html.Div(
-            [
-            html.Button(
-                children=["<<",
-                          html.Img(src='/assets/filter_icon.png', style={'height': '25px', 'width': 'auto'})
-                          ],
-                id="collapse-dashboard-sidebar-button", n_clicks=0, className="filter-button",),
-            ], style={"float": "right"}),
-
-        html.Div(
-            [
-            dashboard_filters(df, dropdowns),
-            html.Div(
-                [
-                dbc.Button(children="Download as .csv",
-                           id="download-button"),
-                dcc.Download(id="download-database"),
-
-                dbc.Checklist(id="include-backend-columns-in-download-button",
-                              options=[{"label": "Include back-end columns (not working yet)", "value": "include"}],
-                              value=[]
-                              ),
-                ], style={"text-align": "center", "padding-top": "100px"})
-
-            ], id="dashboard-sidebar-content", style={"padding-top": "10px"})
-
-        ], id="dashboard-sidebar", className="sidebar-expanded")
-
-    return layout
-
-
-def dashboard_filters(df, dropdowns):
-
     # TODO: Values for sliders (min, max, unique, etc.) should not have to be computed every time this funciton
     #  is called. In future, go through every function in layout that should only be called once and do so before
     #  the site is built (and then import values), maybe do it with __init__.py?
 
     layout = html.Div(
-    [
-        # Drug
-        html.Div(
         [
-            dcc.Dropdown(
-                id='drug-dropdown',
-                placeholder='Drug',
-                # options=[{'label': i, 'value': i} for i in df['drug'].unique()],
-                options=[{'label': key, 'value': val} for key, val in dropdowns["drug"].items()],
-                value=[],
-                clearable=True,
-                multi=True,
-                className='small-dropdown',
+            html.Div(
+                [
+                    html.Button("\u2630",
+                                id="collapse-dashboard-sidebar-button", n_clicks=0,
+                                className="blended-button",
+                                style={"float": "right", "font-size": "40px", "color": "white"}
+                                ),
+                ],
+                style={"width": "100%", "overflow": "hidden", "min-height": "62px", "clear": "both"}
             ),
-        ],),
+            html.Div(
+                [
+                    # Drug group
+                    html.Button(
+                                n_clicks=1,
+                                id="collapse-button-drug-filters",
+                                className="blended-button full-width-menu",
+                                ),
+                    dbc.Collapse(
+                        [
+                            # Name
+                            html.Div(
+                                [
+                                    "By drug name:",
+                                    dcc.Dropdown(
+                                        id='drug-dropdown',
+                                        placeholder='Drug',
+                                        options=[{'label': key, 'value': val} for key, val in
+                                                 dropdowns["drug"].items()],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    ),
+                                ],
+                                className="filter-item"
+                            ),
 
-        # Disease/Condition Indicated
-        html.Div(
-        [
-            dcc.Dropdown(
-                id='disease-dropdown',
-                placeholder='Disease/Condition Indicated',
-                options=[{'label': i, 'value': i} for i in df['disease_condition'].unique() if len(str(i))<50],
-                value=[],
-                clearable=True,
-                multi=True,
-                className='small-dropdown',
-            ),
-        ],),
+                            # ATC Code
+                            html.Div(
+                                [
+                                    "By ATC Code:",
+                                    dcc.Dropdown(
+                                        placeholder='ATC Code',
+                                        # options=[{'label': i, 'value': i} for i in df['drug'].unique()],
+                                        options=[],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    ),
+                                ],
+                                className="filter-item"
+                            ),
 
-        # Administration Route
-        html.Div(
-            [
-                dcc.Dropdown(
-                    id='route-dropdown',
-                    placeholder='Route of Administration',
-                    options=[{'label': i, 'value': i} for i in df['route'].unique()],
-                    value=[],
-                    clearable=True,
-                    multi=True,
-                    className='small-dropdown',
-                ),
-            ], ),
+                            # CAS Number
+                            html.Div(
+                                [
+                                    "By CAS Number:",
+                                    dcc.Dropdown(
+                                        placeholder='CAS Code',
+                                        # options=[{'label': i, 'value': i} for i in df['drug'].unique()],
+                                        options=[],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    ),
+                                ],
+                                className="filter-item"
+                            )
+                        ],
+                        id="drug-filters-collapse",
+                        class_name="filter-group"
+                    ),
 
-        # Study Type
-        html.Div(
-            [
-                dcc.Dropdown(
-                    id='study-type-dropdown',
-                    placeholder='Study Type',
-                    options=[{'label': i, 'value': i} for i in df['study_type'].unique()],
-                    value=[],
-                    clearable=True,
-                    multi=True,
-                    className='small-dropdown',
-                ),
-            ], ),
+                    # Disease/Condition
+                    html.Button(
+                                n_clicks=1,
+                                id="collapse-button-disease-filters",
+                                className="blended-button full-width-menu",
+                    ),
+                    dbc.Collapse(
+                        [
+                            # Name
+                            html.Div(
+                                [
+                                    "By disease/condition name:",
+                                    dcc.Dropdown(
+                                        id='disease-dropdown',
+                                        placeholder='Disease/Condition Indicated',
+                                        options=[{'label': i, 'value': i} for i in df['disease_condition'].unique() if
+                                                 len(str(i)) < 50],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    ),
+                                ],
+                                className="filter-item"
+                            ),
 
-        # Gestational Age
-        html.Div(
-        [
-            html.Div(["Gestational Age:"]),
-            dcc.RangeSlider(
-                id="gest-age-range-slider",
-                min=-10,
-                max=60,
-                step=1,
-                value=[-10, 60],  # "Snapping" values
-                marks={
-                    -10: {"label": "Non-Pregnant", "style": {"transform": "rotate(-90deg) translate(-40px, -40px)", "white-space": "nowrap"}},
-                    0: {"label": "0"},
-                    13: {"label": "T1"},
-                    27: {"label": "T2"},
-                    40: {"label": "T3"},
-                    50: {"label": "Delivery", "style": {"transform": "rotate(-90deg) translate(-20px, -20px)", "white-space": "nowrap"}},
-                    60: {"label": "Postpartum", "style": {"transform": "rotate(-90deg) translate(-30px, -30px)", "white-space": "nowrap"}},
-                },
-                tooltip={"placement": "top", "always_visible": False}
-            ),
-        ], style={"margin-bottom": "75px"}),
+                            # ICD-10 Code
+                            html.Div(
+                                [
+                                    "By ICD-10 Code:",
+                                    dcc.Dropdown(
+                                        placeholder='ICD-10 Code',
+                                        options=[],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    ),
+                                ],
+                                className="filter-item"
+                            ),
 
-        # Year of publication
-        html.Div(
-            [
-                html.Div(["Year of Publication:"]),
-                dcc.RangeSlider(
-                    id="pub-year-range-slider",
-                    min=df["pub_year"].min(),
-                    max=df["pub_year"].max(),
-                    step=1,
-                    value=[df["pub_year"].min(), df["pub_year"].max()],  # "Snapping" values
-                    marks={val: {"label": f"{val}"} for val in
-                           [dec*10 for dec in range(math.ceil((df["pub_year"].min()+1)/10), math.floor((df["pub_year"].max()-1)/10)+1)]  # +1 and -1 to make sure values not repeated
-                           },
-                    tooltip={"placement": "top", "always_visible": False}
-                ),
-            ],)
+                        ],
+                        id="disease-filters-collapse",
+                        class_name="filter-group"
+                    ),
 
-    ], id="dashboard_filters", style={"height": "100%", "margin-top":"25px"})
+                    # Gestational Age
+                    html.Button(
+                        n_clicks=1,
+                        id="collapse-button-gest-age-filters",
+                        className="blended-button full-width-menu",
+                    ),
+                    dbc.Collapse(
+                        [
+                            html.Div(
+                                [
+                                    "By range:",
+                                    dcc.RangeSlider(
+                                        id="gest-age-range-slider",
+                                        min=-10,
+                                        max=60,
+                                        step=1,
+                                        value=[-10, 60],  # "Snapping" values
+                                        marks={
+                                            -10: {"label": "Non-Pregnant",
+                                                  "style": {"transform": "rotate(-90deg) translate(-40px, -40px)",
+                                                            "white-space": "nowrap",
+                                                            "color": "white"}},
+                                            0: {"label": "0",
+                                                "style": {"color": "white"}},
+                                            13: {"label": "T1",
+                                                 "style": {"color": "white"}},
+                                            27: {"label": "T2",
+                                                 "style": {"color": "white"}},
+                                            40: {"label": "T3",
+                                                 "style": {"color": "white"}},
+                                            50: {"label": "Delivery",
+                                                 "style": {"transform": "rotate(-90deg) translate(-20px, -20px)",
+                                                           "white-space": "nowrap",
+                                                           "color": "white"}},
+                                            60: {"label": "Postpartum",
+                                                 "style": {"transform": "rotate(-90deg) translate(-30px, -30px)",
+                                                           "white-space": "nowrap",
+                                                           "color": "white"}},
+                                        },
+                                        tooltip={"placement": "top", "always_visible": False},
+                                    ),
+                                ],
+                                className="filter-item",
+                                style={"margin-bottom": "75px"},
+                            ),
+                            html.Div(
+                                [
+                                    "By trimester:",
+                                    dbc.Checklist(
+                                        options=[
+                                            {"label": "Non-Pregnant", "value": 0},
+                                            {"label": "1st Trimester", "value": 1},
+                                            {"label": "2nd Trimester", "value": 2},
+                                            {"label": "3rd Trimester", "value": 3},
+                                            {"label": "Delivery", "value": 4},
+                                            {"label": "Postpartum", "value": 5}
+                                        ],
+                                        value=[0, 1, 2, 3, 4, 5],
+                                        id="gest-age-checklist",
+                                    ),
+                                ],
+                                className="filter-item"
+                            )
+
+                        ],
+                        id="gest-age-filters-collapse",
+                        class_name="filter-group"
+                    ),
+
+                    # Source
+                    html.Button(
+                        n_clicks=1,
+                        id="collapse-button-source-filters",
+                        className="blended-button full-width-menu",
+                    ),
+                    dbc.Collapse(
+                        [
+                            html.Div(
+                                [
+                                    "Year of Publication:",
+                                    dcc.RangeSlider(
+                                        id="pub-year-range-slider",
+                                        min=df["pub_year"].min(),
+                                        max=df["pub_year"].max(),
+                                        step=1,
+                                        value=[df["pub_year"].min(), df["pub_year"].max()],  # "Snapping" values
+                                        marks={val: {"label": f"{val}",
+                                                     "style": {"color": "white"}
+                                                     } for val in
+                                               [dec * 10 for dec in range(math.ceil((df["pub_year"].min() + 1) / 10),
+                                                                          math.floor(
+                                                                              (df["pub_year"].max() - 1) / 10) + 1)]
+                                               # +1 and -1 to make sure values not repeated
+                                               },
+                                        tooltip={"placement": "top", "always_visible": False}
+                                    ),
+                                ],
+                                className="filter-item"
+                            ),
+
+                            html.Div(
+                                [
+                                    "Study Type:",
+                                    dcc.Dropdown(
+                                        id='study-type-dropdown',
+                                        placeholder='Study Type',
+                                        options=[{'label': i, 'value': i} for i in df['study_type'].unique()],
+                                        value=[],
+                                        clearable=True,
+                                        multi=True,
+                                        className='small-dropdown',
+                                    )
+                                ],
+                                className="filter-item"
+                            )
+                        ],
+                        id="source-filters-collapse",
+                        class_name="filter-group"
+                    ),
+
+                    # Plots
+                    html.Button(
+                        n_clicks=1,
+                        id="collapse-button-plot-options",
+                        className="blended-button full-width-menu",
+                    ),
+                    dbc.Collapse(
+                        [
+                            html.Div(
+                                [
+                                    dcc.Dropdown(
+                                        id='plot-xaxis-dropdown',
+                                        placeholder='Plot against:',
+                                        options=[{'label': "Dose", 'value': "dose"},
+                                                 {'label': "Gestational Age", 'value': "gestational_age"}],
+                                        # value=[],
+                                        clearable=True,
+                                        multi=False,
+                                        className='small-dropdown',
+                                    ),
+                                    dcc.Dropdown(
+                                        id='plot-groupby-dropdown',
+                                        placeholder='Group data by: (under construction)',
+                                        options=[{'label': "Dose", 'value': "dose"},
+                                                 {'label': "Gestational Age", 'value': "gestational_age"}],
+                                        # value=[],
+                                        clearable=True,
+                                        multi=False,
+                                        className='small-dropdown',
+                                    )
+                                ],
+                                className="filter-item"
+                            )
+                        ],
+                        id="plot-options-collapse",
+                        class_name="filter-group"
+                    ),
+
+                    html.Button(
+                        n_clicks=1,
+                        id="collapse-button-download-options",
+                        className="blended-button full-width-menu"
+                    ),
+                    dbc.Collapse(
+                        [
+                            html.Div(
+                                [
+                                    dbc.Checklist(id="include-backend-columns-in-download-button",
+                                                  options=[
+                                                      {"label": "Include back-end columns (not working yet)", "value": "include"}],
+                                                  ),
+                                    dbc.Button("Download as .csv",
+                                               id="download-button",
+                                               ),
+                                    dcc.Download(id="download-database"),
+                                ],
+                                className="filter-item"
+                            ),
+                        ],
+                        id="download-options-collapse",
+                        class_name="filter-group"
+                    ),
+
+                    # html.Div(
+                    #     style={"text-align": "center", "padding-top": "100px"}
+                    # )
+
+                ],
+                id="dashboard-sidebar-content",
+                className="sidebar-content"
+            )
+        ],
+        id="dashboard-sidebar",
+        className="sidebar-expanded",
+    )
 
     return layout
 
@@ -214,7 +396,9 @@ def dashboard_data_column(df, column_settings):
         # data_ag_grid(df, column_settings),
         dashboard_plot_div(),
         # dashboard_plots(),
-    ], id="data_col")
+    ],
+        id="data_col",
+    )
 
     return layout
 
@@ -306,7 +490,7 @@ def dashboard_plot_options_button():
 def dashboard_plot_div():
     layout = html.Div(
         [
-            dashboard_plot_options_button(),
+            # dashboard_plot_options_button(),
             dashboard_plots(),
         ]
     )
@@ -350,7 +534,7 @@ def plot_page():
         html.Div([dcc.Graph(figure=i_fig["plotly_fig_obj"]) for i_fig in all_figs],
                  id="plot_col", className="page-collapsed")
 
-    ], style={"height": "100vh", "width": "100vw", "margin-left": "0px"})
+    ], style={"height": "100%", "width": "100%", "margin-left": "0px"})
 
     return layout
 

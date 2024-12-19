@@ -1,0 +1,1685 @@
+{
+    "aruba": {
+        "names": [
+            "aruba"
+        ],
+        "alpha_2": "AW",
+        "alpha_3": "ABW"
+    },
+    "afghanistan": {
+        "names": [
+            "afghanistan"
+        ],
+        "alpha_2": "AF",
+        "alpha_3": "AFG"
+    },
+    "angola": {
+        "names": [
+            "angola"
+        ],
+        "alpha_2": "AO",
+        "alpha_3": "AGO"
+    },
+    "anguilla": {
+        "names": [
+            "anguilla"
+        ],
+        "alpha_2": "AI",
+        "alpha_3": "AIA"
+    },
+    "\u00e5land islands": {
+        "names": [
+            "\u00e5land islands",
+            "aland islands"
+        ],
+        "alpha_2": "AX",
+        "alpha_3": "ALA"
+    },
+    "albania": {
+        "names": [
+            "albania"
+        ],
+        "alpha_2": "AL",
+        "alpha_3": "ALB"
+    },
+    "andorra": {
+        "names": [
+            "andorra"
+        ],
+        "alpha_2": "AD",
+        "alpha_3": "AND"
+    },
+    "united arab emirates": {
+        "names": [
+            "united arab emirates"
+        ],
+        "alpha_2": "AE",
+        "alpha_3": "ARE"
+    },
+    "argentina": {
+        "names": [
+            "argentina"
+        ],
+        "alpha_2": "AR",
+        "alpha_3": "ARG"
+    },
+    "armenia": {
+        "names": [
+            "armenia"
+        ],
+        "alpha_2": "AM",
+        "alpha_3": "ARM"
+    },
+    "american samoa": {
+        "names": [
+            "american samoa"
+        ],
+        "alpha_2": "AS",
+        "alpha_3": "ASM"
+    },
+    "antarctica": {
+        "names": [
+            "antarctica"
+        ],
+        "alpha_2": "AQ",
+        "alpha_3": "ATA"
+    },
+    "french southern territories": {
+        "names": [
+            "french southern territories"
+        ],
+        "alpha_2": "TF",
+        "alpha_3": "ATF"
+    },
+    "antigua and barbuda": {
+        "names": [
+            "antigua and barbuda"
+        ],
+        "alpha_2": "AG",
+        "alpha_3": "ATG"
+    },
+    "australia": {
+        "names": [
+            "australia"
+        ],
+        "alpha_2": "AU",
+        "alpha_3": "AUS"
+    },
+    "austria": {
+        "names": [
+            "austria"
+        ],
+        "alpha_2": "AT",
+        "alpha_3": "AUT"
+    },
+    "azerbaijan": {
+        "names": [
+            "azerbaijan"
+        ],
+        "alpha_2": "AZ",
+        "alpha_3": "AZE"
+    },
+    "burundi": {
+        "names": [
+            "burundi"
+        ],
+        "alpha_2": "BI",
+        "alpha_3": "BDI"
+    },
+    "belgium": {
+        "names": [
+            "belgium",
+            "belgique"
+        ],
+        "alpha_2": "BE",
+        "alpha_3": "BEL"
+    },
+    "benin": {
+        "names": [
+            "benin"
+        ],
+        "alpha_2": "BJ",
+        "alpha_3": "BEN"
+    },
+    "burkina faso": {
+        "names": [
+            "burkina faso"
+        ],
+        "alpha_2": "BF",
+        "alpha_3": "BFA"
+    },
+    "bangladesh": {
+        "names": [
+            "bangladesh"
+        ],
+        "alpha_2": "BD",
+        "alpha_3": "BGD"
+    },
+    "bulgaria": {
+        "names": [
+            "bulgaria"
+        ],
+        "alpha_2": "BG",
+        "alpha_3": "BGR"
+    },
+    "bahrain": {
+        "names": [
+            "bahrain"
+        ],
+        "alpha_2": "BH",
+        "alpha_3": "BHR"
+    },
+    "bahamas": {
+        "names": [
+            "bahamas"
+        ],
+        "alpha_2": "BS",
+        "alpha_3": "BHS"
+    },
+    "bosnia and herzegovina": {
+        "names": [
+            "bosnia and herzegovina"
+        ],
+        "alpha_2": "BA",
+        "alpha_3": "BIH"
+    },
+    "belarus": {
+        "names": [
+            "belarus"
+        ],
+        "alpha_2": "BY",
+        "alpha_3": "BLR"
+    },
+    "belize": {
+        "names": [
+            "belize"
+        ],
+        "alpha_2": "BZ",
+        "alpha_3": "BLZ"
+    },
+    "bermuda": {
+        "names": [
+            "bermuda"
+        ],
+        "alpha_2": "BM",
+        "alpha_3": "BMU"
+    },
+    "bolivia": {
+        "names": [
+            "bolivia"
+        ],
+        "alpha_2": "BO",
+        "alpha_3": "BOL"
+    },
+    "brazil": {
+        "names": [
+            "brazil",
+            "brasil"
+        ],
+        "alpha_2": "BR",
+        "alpha_3": "BRA"
+    },
+    "barbados": {
+        "names": [
+            "barbados"
+        ],
+        "alpha_2": "BB",
+        "alpha_3": "BRB"
+    },
+    "brunei": {
+        "names": [
+            "brunei"
+        ],
+        "alpha_2": "BN",
+        "alpha_3": "BRN"
+    },
+    "bhutan": {
+        "names": [
+            "bhutan"
+        ],
+        "alpha_2": "BT",
+        "alpha_3": "BTN"
+    },
+    "botswana": {
+        "names": [
+            "botswana"
+        ],
+        "alpha_2": "BW",
+        "alpha_3": "BWA"
+    },
+    "central african republic": {
+        "names": [
+            "central african republic"
+        ],
+        "alpha_2": "CF",
+        "alpha_3": "CAF"
+    },
+    "canada": {
+        "names": [
+            "canada"
+        ],
+        "alpha_2": "CA",
+        "alpha_3": "CAN"
+    },
+    "cocos islands": {
+        "names": [
+            "cocos islands",
+            "keeling islands"
+        ],
+        "alpha_2": "CC",
+        "alpha_3": "CCK"
+    },
+    "switzerland": {
+        "names": [
+            "switzerland"
+        ],
+        "alpha_2": "CH",
+        "alpha_3": "CHE"
+    },
+    "chile": {
+        "names": [
+            "chile"
+        ],
+        "alpha_2": "CL",
+        "alpha_3": "CHL"
+    },
+    "china": {
+        "names": [
+            "china"
+        ],
+        "alpha_2": "CN",
+        "alpha_3": "CHN"
+    },
+    "c\u00f4te d'ivoire": {
+        "names": [
+            "c\u00f4te d'ivoire",
+            "ivory coast"
+        ],
+        "alpha_2": "CI",
+        "alpha_3": "CIV"
+    },
+    "cameroon": {
+        "names": [
+            "cameroon"
+        ],
+        "alpha_2": "CM",
+        "alpha_3": "CMR"
+    },
+    "drc": {
+        "names": [
+            "democratic republic of the congo"
+        ],
+        "alpha_2": "CD",
+        "alpha_3": "COD"
+    },
+    "congo": {
+        "names": [
+            "congo"
+        ],
+        "alpha_2": "CG",
+        "alpha_3": "COG"
+    },
+    "cook islands": {
+        "names": [
+            "cook islands"
+        ],
+        "alpha_2": "CK",
+        "alpha_3": "COK"
+    },
+    "colombia": {
+        "names": [
+            "colombia"
+        ],
+        "alpha_2": "CO",
+        "alpha_3": "COL"
+    },
+    "comoros": {
+        "names": [
+            "comoros"
+        ],
+        "alpha_2": "KM",
+        "alpha_3": "COM"
+    },
+    "cabo verde": {
+        "names": [
+            "cabo verde"
+        ],
+        "alpha_2": "CV",
+        "alpha_3": "CPV"
+    },
+    "costa rica": {
+        "names": [
+            "costa rica"
+        ],
+        "alpha_2": "CR",
+        "alpha_3": "CRI"
+    },
+    "cuba": {
+        "names": [
+            "cuba"
+        ],
+        "alpha_2": "CU",
+        "alpha_3": "CUB"
+    },
+    "cura\u00e7ao": {
+        "names": [
+            "cura\u00e7ao",
+            "curacao"
+        ],
+        "alpha_2": "CW",
+        "alpha_3": "CUW"
+    },
+    "christmas island": {
+        "names": [
+            "christmas island"
+        ],
+        "alpha_2": "CX",
+        "alpha_3": "CXR"
+    },
+    "cayman islands": {
+        "names": [
+            "cayman islands"
+        ],
+        "alpha_2": "KY",
+        "alpha_3": "CYM"
+    },
+    "cyprus": {
+        "names": [
+            "cyprus"
+        ],
+        "alpha_2": "CY",
+        "alpha_3": "CYP"
+    },
+    "czechia": {
+        "names": [
+            "czechia",
+            "czech republic"
+        ],
+        "alpha_2": "CZ",
+        "alpha_3": "CZE"
+    },
+    "germany": {
+        "names": [
+            "germany"
+        ],
+        "alpha_2": "DE",
+        "alpha_3": "DEU"
+    },
+    "djibouti": {
+        "names": [
+            "djibouti"
+        ],
+        "alpha_2": "DJ",
+        "alpha_3": "DJI"
+    },
+    "dominica": {
+        "names": [
+            "dominica"
+        ],
+        "alpha_2": "DM",
+        "alpha_3": "DMA"
+    },
+    "denmark": {
+        "names": [
+            "denmark"
+        ],
+        "alpha_2": "DK",
+        "alpha_3": "DNK"
+    },
+    "dominican republic": {
+        "names": [
+            "dominican republic"
+        ],
+        "alpha_2": "DO",
+        "alpha_3": "DOM"
+    },
+    "algeria": {
+        "names": [
+            "algeria"
+        ],
+        "alpha_2": "DZ",
+        "alpha_3": "DZA"
+    },
+    "ecuador": {
+        "names": [
+            "ecuador"
+        ],
+        "alpha_2": "EC",
+        "alpha_3": "ECU"
+    },
+    "egypt": {
+        "names": [
+            "egypt"
+        ],
+        "alpha_2": "EG",
+        "alpha_3": "EGY"
+    },
+    "eritrea": {
+        "names": [
+            "eritrea"
+        ],
+        "alpha_2": "ER",
+        "alpha_3": "ERI"
+    },
+    "western sahara": {
+        "names": [
+            "western sahara"
+        ],
+        "alpha_2": "EH",
+        "alpha_3": "ESH"
+    },
+    "spain": {
+        "names": [
+            "spain"
+        ],
+        "alpha_2": "ES",
+        "alpha_3": "ESP"
+    },
+    "estonia": {
+        "names": [
+            "estonia"
+        ],
+        "alpha_2": "EE",
+        "alpha_3": "EST"
+    },
+    "ethiopia": {
+        "names": [
+            "ethiopia"
+        ],
+        "alpha_2": "ET",
+        "alpha_3": "ETH"
+    },
+    "finland": {
+        "names": [
+            "finland"
+        ],
+        "alpha_2": "FI",
+        "alpha_3": "FIN"
+    },
+    "fiji": {
+        "names": [
+            "fiji"
+        ],
+        "alpha_2": "FJ",
+        "alpha_3": "FJI"
+    },
+    "falkland islands": {
+        "names": [
+            "falkland islands"
+        ],
+        "alpha_2": "FK",
+        "alpha_3": "FLK"
+    },
+    "france": {
+        "names": [
+            "france"
+        ],
+        "alpha_2": "FR",
+        "alpha_3": "FRA"
+    },
+    "faroe islands": {
+        "names": [
+            "faroe islands"
+        ],
+        "alpha_2": "FO",
+        "alpha_3": "FRO"
+    },
+    "micronesia": {
+        "names": [
+            "micronesia"
+        ],
+        "alpha_2": "FM",
+        "alpha_3": "FSM"
+    },
+    "gabon": {
+        "names": [
+            "gabon"
+        ],
+        "alpha_2": "GA",
+        "alpha_3": "GAB"
+    },
+    "united kingdom": {
+        "names": [
+            "united kingdom",
+            "england",
+            "scotland",
+            "wales",
+            "northern island"
+        ],
+        "alpha_2": "UK",
+        "alpha_3": "U.K"
+    },
+    "georgia": {
+        "names": [
+            "georgia"
+        ],
+        "alpha_2": "GE",
+        "alpha_3": "GEO"
+    },
+    "guernsey": {
+        "names": [
+            "guernsey"
+        ],
+        "alpha_2": "GG",
+        "alpha_3": "GGY"
+    },
+    "ghana": {
+        "names": [
+            "ghana"
+        ],
+        "alpha_2": "GH",
+        "alpha_3": "GHA"
+    },
+    "gibraltar": {
+        "names": [
+            "gibraltar"
+        ],
+        "alpha_2": "GI",
+        "alpha_3": "GIB"
+    },
+    "guinea": {
+        "names": [
+            "guinea"
+        ],
+        "alpha_2": "GN",
+        "alpha_3": "GIN"
+    },
+    "guadeloupe": {
+        "names": [
+            "guadeloupe"
+        ],
+        "alpha_2": "GP",
+        "alpha_3": "GLP"
+    },
+    "gambia": {
+        "names": [
+            "gambia"
+        ],
+        "alpha_2": "GM",
+        "alpha_3": "GMB"
+    },
+    "guinea-bissau": {
+        "names": [
+            "guinea-bissau"
+        ],
+        "alpha_2": "GW",
+        "alpha_3": "GNB"
+    },
+    "equatorial guinea": {
+        "names": [
+            "equatorial guinea"
+        ],
+        "alpha_2": "GQ",
+        "alpha_3": "GNQ"
+    },
+    "greece": {
+        "names": [
+            "greece"
+        ],
+        "alpha_2": "GR",
+        "alpha_3": "GRC"
+    },
+    "grenada": {
+        "names": [
+            "grenada"
+        ],
+        "alpha_2": "GD",
+        "alpha_3": "GRD"
+    },
+    "greenland": {
+        "names": [
+            "greenland"
+        ],
+        "alpha_2": "GL",
+        "alpha_3": "GRL"
+    },
+    "guatemala": {
+        "names": [
+            "guatemala"
+        ],
+        "alpha_2": "GT",
+        "alpha_3": "GTM"
+    },
+    "french guiana": {
+        "names": [
+            "french guiana"
+        ],
+        "alpha_2": "GF",
+        "alpha_3": "GUF"
+    },
+    "guam": {
+        "names": [
+            "guam"
+        ],
+        "alpha_2": "GU",
+        "alpha_3": "GUM"
+    },
+    "guyana": {
+        "names": [
+            "guyana"
+        ],
+        "alpha_2": "GY",
+        "alpha_3": "GUY"
+    },
+    "hong kong": {
+        "names": [
+            "hong kong"
+        ],
+        "alpha_2": "HK",
+        "alpha_3": "HKG"
+    },
+    "honduras": {
+        "names": [
+            "honduras"
+        ],
+        "alpha_2": "HN",
+        "alpha_3": "HND"
+    },
+    "croatia": {
+        "names": [
+            "croatia"
+        ],
+        "alpha_2": "HR",
+        "alpha_3": "HRV"
+    },
+    "haiti": {
+        "names": [
+            "haiti"
+        ],
+        "alpha_2": "HT",
+        "alpha_3": "HTI"
+    },
+    "hungary": {
+        "names": [
+            "hungary"
+        ],
+        "alpha_2": "HU",
+        "alpha_3": "HUN"
+    },
+    "indonesia": {
+        "names": [
+            "indonesia"
+        ],
+        "alpha_2": "ID",
+        "alpha_3": "IDN"
+    },
+    "isle of man": {
+        "names": [
+            "isle of man"
+        ],
+        "alpha_2": "IM",
+        "alpha_3": "IMN"
+    },
+    "india": {
+        "names": [
+            "india"
+        ],
+        "alpha_2": "IN",
+        "alpha_3": "IND"
+    },
+    "ireland": {
+        "names": [
+            "ireland"
+        ],
+        "alpha_2": "IE",
+        "alpha_3": "IRL"
+    },
+    "iran": {
+        "names": [
+            "iran"
+        ],
+        "alpha_2": "IR",
+        "alpha_3": "IRN"
+    },
+    "iraq": {
+        "names": [
+            "iraq"
+        ],
+        "alpha_2": "IQ",
+        "alpha_3": "IRQ"
+    },
+    "iceland": {
+        "names": [
+            "iceland"
+        ],
+        "alpha_2": "IS",
+        "alpha_3": "ISL"
+    },
+    "israel": {
+        "names": [
+            "israel"
+        ],
+        "alpha_2": "IL",
+        "alpha_3": "ISR"
+    },
+    "italy": {
+        "names": [
+            "italy"
+        ],
+        "alpha_2": "IT",
+        "alpha_3": "ITA"
+    },
+    "jamaica": {
+        "names": [
+            "jamaica"
+        ],
+        "alpha_2": "JM",
+        "alpha_3": "JAM"
+    },
+    "jersey": {
+        "names": [
+            "jersey"
+        ],
+        "alpha_2": "JE",
+        "alpha_3": "JEY"
+    },
+    "jordan": {
+        "names": [
+            "jordan"
+        ],
+        "alpha_2": "JO",
+        "alpha_3": "JOR"
+    },
+    "japan": {
+        "names": [
+            "japan"
+        ],
+        "alpha_2": "JP",
+        "alpha_3": "JPN"
+    },
+    "kazakhstan": {
+        "names": [
+            "kazakhstan"
+        ],
+        "alpha_2": "KZ",
+        "alpha_3": "KAZ"
+    },
+    "kenya": {
+        "names": [
+            "kenya"
+        ],
+        "alpha_2": "KE",
+        "alpha_3": "KEN"
+    },
+    "kyrgyzstan": {
+        "names": [
+            "kyrgyzstan"
+        ],
+        "alpha_2": "KG",
+        "alpha_3": "KGZ"
+    },
+    "cambodia": {
+        "names": [
+            "cambodia"
+        ],
+        "alpha_2": "KH",
+        "alpha_3": "KHM"
+    },
+    "kiribati": {
+        "names": [
+            "kiribati"
+        ],
+        "alpha_2": "KI",
+        "alpha_3": "KIR"
+    },
+    "saint kitts and nevis": {
+        "names": [
+            "saint kitts and nevis"
+        ],
+        "alpha_2": "KN",
+        "alpha_3": "KNA"
+    },
+    "korea": {
+        "names": [
+            "korea"
+        ],
+        "alpha_2": "KR",
+        "alpha_3": "KOR"
+    },
+    "kuwait": {
+        "names": [
+            "kuwait"
+        ],
+        "alpha_2": "KW",
+        "alpha_3": "KWT"
+    },
+    "laos": {
+        "names": [
+            "laos"
+        ],
+        "alpha_2": "LA",
+        "alpha_3": "LAO"
+    },
+    "lebanon": {
+        "names": [
+            "lebanon"
+        ],
+        "alpha_2": "LB",
+        "alpha_3": "LBN"
+    },
+    "liberia": {
+        "names": [
+            "liberia"
+        ],
+        "alpha_2": "LR",
+        "alpha_3": "LBR"
+    },
+    "libya": {
+        "names": [
+            "libya"
+        ],
+        "alpha_2": "LY",
+        "alpha_3": "LBY"
+    },
+    "saint lucia": {
+        "names": [
+            "saint lucia"
+        ],
+        "alpha_2": "LC",
+        "alpha_3": "LCA"
+    },
+    "liechtenstein": {
+        "names": [
+            "liechtenstein"
+        ],
+        "alpha_2": "LI",
+        "alpha_3": "LIE"
+    },
+    "sri lanka": {
+        "names": [
+            "sri lanka"
+        ],
+        "alpha_2": "LK",
+        "alpha_3": "LKA"
+    },
+    "lesotho": {
+        "names": [
+            "lesotho"
+        ],
+        "alpha_2": "LS",
+        "alpha_3": "LSO"
+    },
+    "lithuania": {
+        "names": [
+            "lithuania"
+        ],
+        "alpha_2": "LT",
+        "alpha_3": "LTU"
+    },
+    "luxembourg": {
+        "names": [
+            "luxembourg"
+        ],
+        "alpha_2": "LU",
+        "alpha_3": "LUX"
+    },
+    "latvia": {
+        "names": [
+            "latvia"
+        ],
+        "alpha_2": "LV",
+        "alpha_3": "LVA"
+    },
+    "macao": {
+        "names": [
+            "macao"
+        ],
+        "alpha_2": "MO",
+        "alpha_3": "MAC"
+    },
+    "saint martin": {
+        "names": [
+            "saint martin"
+        ],
+        "alpha_2": "MF",
+        "alpha_3": "MAF"
+    },
+    "morocco": {
+        "names": [
+            "morocco"
+        ],
+        "alpha_2": "MA",
+        "alpha_3": "MAR"
+    },
+    "monaco": {
+        "names": [
+            "monaco"
+        ],
+        "alpha_2": "MC",
+        "alpha_3": "MCO"
+    },
+    "moldova": {
+        "names": [
+            "moldova"
+        ],
+        "alpha_2": "MD",
+        "alpha_3": "MDA"
+    },
+    "madagascar": {
+        "names": [
+            "madagascar"
+        ],
+        "alpha_2": "MG",
+        "alpha_3": "MDG"
+    },
+    "maldives": {
+        "names": [
+            "maldives"
+        ],
+        "alpha_2": "MV",
+        "alpha_3": "MDV"
+    },
+    "mexico": {
+        "names": [
+            "mexico",
+            "m\u00e9xico"
+        ],
+        "alpha_2": "MX",
+        "alpha_3": "MEX"
+    },
+    "marshall islands": {
+        "names": [
+            "marshall islands"
+        ],
+        "alpha_2": "MH",
+        "alpha_3": "MHL"
+    },
+    "north macedonia": {
+        "names": [
+            "north macedonia"
+        ],
+        "alpha_2": "MK",
+        "alpha_3": "MKD"
+    },
+    "mali": {
+        "names": [
+            "mali"
+        ],
+        "alpha_2": "ML",
+        "alpha_3": "MLI"
+    },
+    "malta": {
+        "names": [
+            "malta"
+        ],
+        "alpha_2": "MT",
+        "alpha_3": "MLT"
+    },
+    "myanmar": {
+        "names": [
+            "myanmar"
+        ],
+        "alpha_2": "MM",
+        "alpha_3": "MMR"
+    },
+    "montenegro": {
+        "names": [
+            "montenegro"
+        ],
+        "alpha_2": "ME",
+        "alpha_3": "MNE"
+    },
+    "mongolia": {
+        "names": [
+            "mongolia"
+        ],
+        "alpha_2": "MN",
+        "alpha_3": "MNG"
+    },
+    "northern mariana islands": {
+        "names": [
+            "northern mariana islands"
+        ],
+        "alpha_2": "MP",
+        "alpha_3": "MNP"
+    },
+    "mozambique": {
+        "names": [
+            "mozambique"
+        ],
+        "alpha_2": "MZ",
+        "alpha_3": "MOZ"
+    },
+    "mauritania": {
+        "names": [
+            "mauritania"
+        ],
+        "alpha_2": "MR",
+        "alpha_3": "MRT"
+    },
+    "montserrat": {
+        "names": [
+            "montserrat"
+        ],
+        "alpha_2": "MS",
+        "alpha_3": "MSR"
+    },
+    "martinique": {
+        "names": [
+            "martinique"
+        ],
+        "alpha_2": "MQ",
+        "alpha_3": "MTQ"
+    },
+    "mauritius": {
+        "names": [
+            "mauritius"
+        ],
+        "alpha_2": "MU",
+        "alpha_3": "MUS"
+    },
+    "malawi": {
+        "names": [
+            "malawi"
+        ],
+        "alpha_2": "MW",
+        "alpha_3": "MWI"
+    },
+    "malaysia": {
+        "names": [
+            "malaysia"
+        ],
+        "alpha_2": "MY",
+        "alpha_3": "MYS"
+    },
+    "mayotte": {
+        "names": [
+            "mayotte"
+        ],
+        "alpha_2": "YT",
+        "alpha_3": "MYT"
+    },
+    "namibia": {
+        "names": [
+            "namibia"
+        ],
+        "alpha_2": "NA",
+        "alpha_3": "NAM"
+    },
+    "new caledonia": {
+        "names": [
+            "new caledonia"
+        ],
+        "alpha_2": "NC",
+        "alpha_3": "NCL"
+    },
+    "niger": {
+        "names": [
+            "niger"
+        ],
+        "alpha_2": "NE",
+        "alpha_3": "NER"
+    },
+    "norfolk island": {
+        "names": [
+            "norfolk island"
+        ],
+        "alpha_2": "NF",
+        "alpha_3": "NFK"
+    },
+    "nigeria": {
+        "names": [
+            "nigeria"
+        ],
+        "alpha_2": "NG",
+        "alpha_3": "NGA"
+    },
+    "nicaragua": {
+        "names": [
+            "nicaragua"
+        ],
+        "alpha_2": "NI",
+        "alpha_3": "NIC"
+    },
+    "niue": {
+        "names": [
+            "niue"
+        ],
+        "alpha_2": "NU",
+        "alpha_3": "NIU"
+    },
+    "netherlands": {
+        "names": [
+            "netherlands"
+        ],
+        "alpha_2": "NL",
+        "alpha_3": "NLD"
+    },
+    "norway": {
+        "names": [
+            "norway"
+        ],
+        "alpha_2": "NO",
+        "alpha_3": "NOR"
+    },
+    "nepal": {
+        "names": [
+            "nepal"
+        ],
+        "alpha_2": "NP",
+        "alpha_3": "NPL"
+    },
+    "nauru": {
+        "names": [
+            "nauru"
+        ],
+        "alpha_2": "NR",
+        "alpha_3": "NRU"
+    },
+    "new zealand": {
+        "names": [
+            "new zealand"
+        ],
+        "alpha_2": "NZ",
+        "alpha_3": "NZL"
+    },
+    "oman": {
+        "names": [
+            "oman"
+        ],
+        "alpha_2": "OM",
+        "alpha_3": "OMN"
+    },
+    "pakistan": {
+        "names": [
+            "pakistan"
+        ],
+        "alpha_2": "PK",
+        "alpha_3": "PAK"
+    },
+    "panama": {
+        "names": [
+            "panama"
+        ],
+        "alpha_2": "PA",
+        "alpha_3": "PAN"
+    },
+    "pitcairn": {
+        "names": [
+            "pitcairn"
+        ],
+        "alpha_2": "PN",
+        "alpha_3": "PCN"
+    },
+    "peru": {
+        "names": [
+            "peru"
+        ],
+        "alpha_2": "PE",
+        "alpha_3": "PER"
+    },
+    "philippines": {
+        "names": [
+            "philippines"
+        ],
+        "alpha_2": "PH",
+        "alpha_3": "PHL"
+    },
+    "palau": {
+        "names": [
+            "palau"
+        ],
+        "alpha_2": "PW",
+        "alpha_3": "PLW"
+    },
+    "papua new guinea": {
+        "names": [
+            "papua new guinea"
+        ],
+        "alpha_2": "PG",
+        "alpha_3": "PNG"
+    },
+    "poland": {
+        "names": [
+            "poland"
+        ],
+        "alpha_2": "PL",
+        "alpha_3": "POL"
+    },
+    "puerto rico": {
+        "names": [
+            "puerto rico"
+        ],
+        "alpha_2": "PR",
+        "alpha_3": "PRI"
+    },
+    "portugal": {
+        "names": [
+            "portugal"
+        ],
+        "alpha_2": "PT",
+        "alpha_3": "PRT"
+    },
+    "paraguay": {
+        "names": [
+            "paraguay"
+        ],
+        "alpha_2": "PY",
+        "alpha_3": "PRY"
+    },
+    "palestine": {
+        "names": [
+            "palestine"
+        ],
+        "alpha_2": "PS",
+        "alpha_3": "PSE"
+    },
+    "french polynesia": {
+        "names": [
+            "french polynesia"
+        ],
+        "alpha_2": "PF",
+        "alpha_3": "PYF"
+    },
+    "qatar": {
+        "names": [
+            "qatar"
+        ],
+        "alpha_2": "QA",
+        "alpha_3": "QAT"
+    },
+    "r\u00e9union": {
+        "names": [
+            "r\u00e9union",
+            "reunion"
+        ],
+        "alpha_2": "RE",
+        "alpha_3": "REU"
+    },
+    "romania": {
+        "names": [
+            "romania"
+        ],
+        "alpha_2": "RO",
+        "alpha_3": "ROU"
+    },
+    "russia": {
+        "names": [
+            "russia"
+        ],
+        "alpha_2": "RU",
+        "alpha_3": "RUS"
+    },
+    "rwanda": {
+        "names": [
+            "rwanda"
+        ],
+        "alpha_2": "RW",
+        "alpha_3": "RWA"
+    },
+    "saudi arabia": {
+        "names": [
+            "saudi arabia"
+        ],
+        "alpha_2": "SA",
+        "alpha_3": "SAU"
+    },
+    "sudan": {
+        "names": [
+            "sudan"
+        ],
+        "alpha_2": "SD",
+        "alpha_3": "SDN"
+    },
+    "senegal": {
+        "names": [
+            "senegal"
+        ],
+        "alpha_2": "SN",
+        "alpha_3": "SEN"
+    },
+    "singapore": {
+        "names": [
+            "singapore"
+        ],
+        "alpha_2": "SG",
+        "alpha_3": "SGP"
+    },
+    "svalbard": {
+        "names": [
+            "svalbard"
+        ],
+        "alpha_2": "SJ",
+        "alpha_3": "SJM"
+    },
+    "solomon islands": {
+        "names": [
+            "solomon islands"
+        ],
+        "alpha_2": "SB",
+        "alpha_3": "SLB"
+    },
+    "sierra leone": {
+        "names": [
+            "sierra leone"
+        ],
+        "alpha_2": "SL",
+        "alpha_3": "SLE"
+    },
+    "el salvador": {
+        "names": [
+            "el salvador"
+        ],
+        "alpha_2": "SV",
+        "alpha_3": "SLV"
+    },
+    "san marino": {
+        "names": [
+            "san marino"
+        ],
+        "alpha_2": "SM",
+        "alpha_3": "SMR"
+    },
+    "somalia": {
+        "names": [
+            "somalia"
+        ],
+        "alpha_2": "SO",
+        "alpha_3": "SOM"
+    },
+    "saint pierre and miquelon": {
+        "names": [
+            "saint pierre and miquelon"
+        ],
+        "alpha_2": "PM",
+        "alpha_3": "SPM"
+    },
+    "serbia": {
+        "names": [
+            "serbia"
+        ],
+        "alpha_2": "RS",
+        "alpha_3": "SRB"
+    },
+    "south sudan": {
+        "names": [
+            "south sudan"
+        ],
+        "alpha_2": "SS",
+        "alpha_3": "SSD"
+    },
+    "sao tome and principe": {
+        "names": [
+            "sao tome and principe"
+        ],
+        "alpha_2": "ST",
+        "alpha_3": "STP"
+    },
+    "suriname": {
+        "names": [
+            "suriname"
+        ],
+        "alpha_2": "SR",
+        "alpha_3": "SUR"
+    },
+    "slovakia": {
+        "names": [
+            "slovakia"
+        ],
+        "alpha_2": "SK",
+        "alpha_3": "SVK"
+    },
+    "slovenia": {
+        "names": [
+            "slovenia"
+        ],
+        "alpha_2": "SI",
+        "alpha_3": "SVN"
+    },
+    "sweden": {
+        "names": [
+            "sweden"
+        ],
+        "alpha_2": "SE",
+        "alpha_3": "SWE"
+    },
+    "eswatini": {
+        "names": [
+            "eswatini"
+        ],
+        "alpha_2": "SZ",
+        "alpha_3": "SWZ"
+    },
+    "sint maarten": {
+        "names": [
+            "sint maarten"
+        ],
+        "alpha_2": "SX",
+        "alpha_3": "SXM"
+    },
+    "seychelles": {
+        "names": [
+            "seychelles"
+        ],
+        "alpha_2": "SC",
+        "alpha_3": "SYC"
+    },
+    "syria": {
+        "names": [
+            "syria"
+        ],
+        "alpha_2": "SY",
+        "alpha_3": "SYR"
+    },
+    "turks and caicos": {
+        "names": [
+            "turks and caicos"
+        ],
+        "alpha_2": "TC",
+        "alpha_3": "TCA"
+    },
+    "chad": {
+        "names": [
+            "chad"
+        ],
+        "alpha_2": "TD",
+        "alpha_3": "TCD"
+    },
+    "togo": {
+        "names": [
+            "togo"
+        ],
+        "alpha_2": "TG",
+        "alpha_3": "TGO"
+    },
+    "thailand": {
+        "names": [
+            "thailand"
+        ],
+        "alpha_2": "TH",
+        "alpha_3": "THA"
+    },
+    "tajikistan": {
+        "names": [
+            "tajikistan"
+        ],
+        "alpha_2": "TJ",
+        "alpha_3": "TJK"
+    },
+    "tokelau": {
+        "names": [
+            "tokelau"
+        ],
+        "alpha_2": "TK",
+        "alpha_3": "TKL"
+    },
+    "turkmenistan": {
+        "names": [
+            "turkmenistan"
+        ],
+        "alpha_2": "TM",
+        "alpha_3": "TKM"
+    },
+    "timor-leste": {
+        "names": [
+            "timor-leste"
+        ],
+        "alpha_2": "TL",
+        "alpha_3": "TLS"
+    },
+    "tonga": {
+        "names": [
+            "tonga"
+        ],
+        "alpha_2": "TO",
+        "alpha_3": "TON"
+    },
+    "trinidad and tobago": {
+        "names": [
+            "trinidad and tobago"
+        ],
+        "alpha_2": "TT",
+        "alpha_3": "TTO"
+    },
+    "tunisia": {
+        "names": [
+            "tunisia"
+        ],
+        "alpha_2": "TN",
+        "alpha_3": "TUN"
+    },
+    "turkey": {
+        "names": [
+            "t\u00fcrkiye",
+            "turkey"
+        ],
+        "alpha_2": "TR",
+        "alpha_3": "TUR"
+    },
+    "tuvalu": {
+        "names": [
+            "tuvalu"
+        ],
+        "alpha_2": "TV",
+        "alpha_3": "TUV"
+    },
+    "taiwan": {
+        "names": [
+            "taiwan",
+            "chinese taipei"
+        ],
+        "alpha_2": "TW",
+        "alpha_3": "TWN"
+    },
+    "tanzania": {
+        "names": [
+            "tanzania"
+        ],
+        "alpha_2": "TZ",
+        "alpha_3": "TZA"
+    },
+    "uganda": {
+        "names": [
+            "uganda"
+        ],
+        "alpha_2": "UG",
+        "alpha_3": "UGA"
+    },
+    "ukraine": {
+        "names": [
+            "ukraine"
+        ],
+        "alpha_2": "UA",
+        "alpha_3": "UKR"
+    },
+    "uruguay": {
+        "names": [
+            "uruguay"
+        ],
+        "alpha_2": "UY",
+        "alpha_3": "URY"
+    },
+    "united states": {
+        "names": [
+            "united states"
+        ],
+        "alpha_2": "US",
+        "alpha_3": "USA"
+    },
+    "uzbekistan": {
+        "names": [
+            "uzbekistan"
+        ],
+        "alpha_2": "UZ",
+        "alpha_3": "UZB"
+    },
+    "vatican city": {
+        "names": [
+            "vatican city",
+            "holy see"
+        ],
+        "alpha_2": "VA",
+        "alpha_3": "VAT"
+    },
+    "saint vincent and the grenadines": {
+        "names": [
+            "saint vincent and the grenadines"
+        ],
+        "alpha_2": "VC",
+        "alpha_3": "VCT"
+    },
+    "venezuela": {
+        "names": [
+            "venezuela"
+        ],
+        "alpha_2": "VE",
+        "alpha_3": "VEN"
+    },
+    "british virgin islands": {
+        "names": [
+            "british virgin islands"
+        ],
+        "alpha_2": "VG",
+        "alpha_3": "VAT"
+    },
+    "vietnam": {
+        "names": [
+            "viet nam",
+            "vietnam"
+        ],
+        "alpha_2": "VN",
+        "alpha_3": "VNM"
+    },
+    "vanuatu": {
+        "names": [
+            "vanuatu"
+        ],
+        "alpha_2": "VU",
+        "alpha_3": "VUT"
+    },
+    "samoa": {
+        "names": [
+            "samoa"
+        ],
+        "alpha_2": "WS",
+        "alpha_3": "WSM"
+    },
+    "yemen": {
+        "names": [
+            "yemen"
+        ],
+        "alpha_2": "YE",
+        "alpha_3": "YEM"
+    },
+    "south africa": {
+        "names": [
+            "south africa"
+        ],
+        "alpha_2": "ZA",
+        "alpha_3": "ZAF"
+    },
+    "zambia": {
+        "names": [
+            "zambia"
+        ],
+        "alpha_2": "ZM",
+        "alpha_3": "ZMB"
+    },
+    "zimbabwe": {
+        "names": [
+            "zimbabwe"
+        ],
+        "alpha_2": "ZW",
+        "alpha_3": "ZWE"
+    }
+}

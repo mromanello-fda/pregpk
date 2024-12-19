@@ -6,8 +6,9 @@ def filter_df(df, filter_dict):
         df = df[df['gsrs_unii'].isin(filter_dict["drug"])]
     if filter_dict["disease_condition"]:
         df = df[df['disease_condition'].isin(filter_dict["disease_condition"])]
-    if filter_dict["route"]:
-        df = df[df['route'].isin(filter_dict["route"])]
+
+    # if filter_dict["route"]:  # Not using for now
+    #     df = df[df['route'].isin(filter_dict["route"])]
 
     if filter_dict["gest_age_range"] != [-10, 60]:  # TODO: Shouldn't hard code this?
         df = df[(df["gestational_age_vr"] >= filter_dict["gest_age_range"][0]) & (df["gestational_age_vr"] <= filter_dict["gest_age_range"][1])]

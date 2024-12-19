@@ -114,18 +114,21 @@ def metadata_from_pmids(pmids: list, fill_invalid_pmids='remove') -> dict:
         resp = requests.get(api_call_from_pmids(i_pmids))
 
         # articles = [json.loads(i) for i in resp.text.split('\n') if i]  # OLD API FORMAT "if i" to remove falsey values (empty string)
+        # TODO: Check for response code
         if resp.text:  # resp.text will return falsey '' if only pmids without text are queried
             articles = json.loads(resp.text)['PubTator3']
         else:
             continue
 
         for art in articles:
-            # Get abstract
+
+            # Getting boolean for whether there is an abstract
             has_abstract = False
             for ipassage in art['passages']:
                 if ipassage['infons']['type'] == 'abstract':
                     has_abstract = True
                     break
+
             # Get DOI
             art_doi = get_doi_from_article_dict(art)
             metadata[str(art['pmid'])] = {

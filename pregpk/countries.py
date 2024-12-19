@@ -3,31 +3,28 @@ import json
 import re
 import requests
 import warnings
+from . import country_dict, us_state_dict
 
 
 class CountryParser:
 
-    def __init__(self, country_json_path="standard_values/country_info.json",
-                 us_state_json_path="standard_values/us_states_info.json"):
-        self.country_json_path = country_json_path
-        self.country_dict = self.get_country_dict()
-
-        self.us_state_json_path = us_state_json_path
-        self.us_state_dict = self.get_us_state_dict()
+    def __init__(self):
+        self.country_dict = country_dict
+        self.us_state_dict = us_state_dict
         # Define REs
         self.define_res()
 
-    def get_country_dict(self):
-        with open(self.country_json_path, "r") as ctr_file:
-            countries = json.load(ctr_file)
-
-        return countries
-
-    def get_us_state_dict(self):
-        with open(self.us_state_json_path, "r") as st_file:
-            states = json.load(st_file)
-
-        return states
+    # def get_country_dict(self):
+    #     with open(self.country_json_path, "r") as ctr_file:
+    #         countries = json.load(ctr_file)
+    #
+    #     return countries
+    #
+    # def get_us_state_dict(self):
+    #     with open(self.us_state_json_path, "r") as st_file:
+    #         states = json.load(st_file)
+    #
+    #     return states
 
     def define_res(self):
 

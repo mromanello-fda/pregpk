@@ -36,8 +36,8 @@ def text_from_pmids(pmids: list, email: str, api_key: str = None, fill_invalid_p
     max_pmids_per_call = 9999
 
     split_pmids = gen_utils.split_list(pmids, max_pmids_per_call)
-    texts = {}
 
+    texts = {}
     for i_pmids in tqdm(split_pmids):
         i_handle = Entrez.efetch(db="pubmed", id=gen_utils.comma_sep_str_from_list(i_pmids),
                                  rettype="xml", retmode="text")
@@ -82,23 +82,26 @@ def pmids_from_pubmed_query(query: str, email: str, api_key: str = None, free_ar
         query = query + ' AND "freetext"[filter]'
         # query = query + ' AND "free only pmc"[filter]'
 
+    # Conducts first API search
     handle = Entrez.esearch(db='pubmed', term=query, retmax=10000, sort='pub_date', datetype='pdat')
     response = Entrez.read(handle)
     response = gen_utils.convert_to_python_obj(response)
     handle.close()
 
+    # Checking whether total number of PMIDs from search is above or below 9,999 API limit
     total = int(response['Count'])
     pmids = response['IdList']  # Convert to python native list and string
 
-    if total < 10000:
+    if total < 10000:  # First API search returned all of the relevant query results
         return pmids
 
     while len(pmids) < total:
-        last_date = Entrez.read(Entrez.esummary(db='pubmed', id=pmids[-1], retmode='text'))[0]['PubDate'][
+        # Iteratively adds 9,999 more PMIDs to our PMID list until we reach the "total" value (total PMIDs in the search)
+        oldest_returned_date = Entrez.read(Entrez.esummary(db='pubmed', id=pmids[-1], retmode='text'))[0]['PubDate'][
                     :4]  # String with YYYY
 
         i_handle = Entrez.esearch(db='pubmed', term=query, retmax=10000, sort='pub_date', datetype='pdat',
-                                  mindate=0000, maxdate=last_date)
+                                  mindate=0000, maxdate=oldest_returned_date)
         i_response = Entrez.read(i_handle)
         i_response = gen_utils.convert_to_python_obj(i_response)
         i_handle.close()
@@ -150,19 +153,24 @@ def summaries_from_pmids(pmids: list, email: str, api_key: str = None, fill_inva
         i_handle = Entrez.esummary(db='pubmed', id=gen_utils.comma_sep_str_from_list(i_pmids), retmode='xml')
         i_resp = Entrez.read(i_handle)
         i_resp = gen_utils.convert_to_python_obj(i_resp)
-        i_summaries = {i['Id']: i for i in i_resp}
         i_handle.close()
+
+        i_summaries = {i['Id']: i for i in i_resp}  # Populates our "summaries" dictionary with the returned metadata
 
         i_handle = Entrez.efetch(db='pubmed', id=gen_utils.comma_sep_str_from_list(i_pmids), retmode='xml')
         i_resp = Entrez.read(i_handle)
         i_resp = gen_utils.convert_to_python_obj(i_resp)
-        for art in i_resp['PubmedArticle']:
+
+        for art in i_resp['PubmedArticle']:  # For each article returned in the sub-list of PMIDs
+
+            # Try to get the list of MeSH terms (if available)
             art_pmid = art['MedlineCitation']['PMID']
             try:
                 mesh_terms = [i['DescriptorName'] for i in art["MedlineCitation"]['MeshHeadingList']]
             except KeyError:
                 mesh_terms = []
 
+            # Try to get a list of affiliations (if available) and interpret information using CountryParser
             aff_set = set()
             # Better to have two try-except statements because sometimes there are some authors with AffiliationInfo
             # and some without; using only one try-except statement would ignore the authors with data
@@ -180,6 +188,7 @@ def summaries_from_pmids(pmids: list, email: str, api_key: str = None, fill_inva
                 aff_ctrs.update(cp.countries_from_affiliation(aff))
             aff_ctrs = list(set(aff_ctrs))
 
+            # Updates the metadata for PMID "art_pmid"
             i_summaries[art_pmid].update({"mesh_terms": mesh_terms, "pub_countries": aff_ctrs})
 
         summaries.update(i_summaries)
@@ -247,6 +256,7 @@ def metadata_from_pmids(pmids: list, email: str, api_key: str = None, fill_inval
 
 
 def remove_invalid_pmids(pmids: list, email: str, api_key: str = None, verbose=False, return_invalid=False):
+
     Entrez.email = email
     if api_key is not None:
         Entrez.api_key = api_key
@@ -276,6 +286,7 @@ def remove_invalid_pmids(pmids: list, email: str, api_key: str = None, verbose=F
         return returned_pmids, removed_pmids
     else:
         return returned_pmids
+
 
 def get_and_parse_metadata_from_entrez(df, email, api_key=None):
     # TODO: If we end up joining this with the automation project, this is redundant and should just use
