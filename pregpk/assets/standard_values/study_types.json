@@ -1,0 +1,60 @@
+{
+    "observational": [
+        "observational"
+    ],
+    "experimental": [
+        "experimental"
+    ],
+    "prospective": [
+        "prospective"
+    ],
+    "randomized": [
+        "randomized",
+        "randomised"
+    ],
+    "case": [
+        "case"
+    ],
+    "open label": [
+        "open label",
+        "open-label"
+    ],
+    "longitudinal": [
+        "longitudinal"
+    ],
+    "retrospective": [
+        "retrospective"
+    ],
+    "pilot": [
+        "pilot"
+    ],
+    "crossover": [
+        "crossover",
+        "cross-over",
+        "cross over"
+    ],
+    "dose finding": [
+        "dose finding"
+    ],
+    "dose escalation": [
+        "dose escalation"
+    ],
+    "interventional": [
+        "interventional"
+    ],
+    "comparative": [
+        "comparative"
+    ],
+    "case series": [
+        "case series"
+    ],
+    "opportunistic": [
+        "opportunistic"
+    ],
+    "case report": [
+        "case report"
+    ],
+    "cohort": [
+        "cohort"
+    ]
+}

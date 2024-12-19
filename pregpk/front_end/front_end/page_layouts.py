@@ -498,12 +498,6 @@ def dashboard_plot_div():
     return layout
 
 
-def home_page():
-    layout = html.H1(["This is the home page"])
-
-    return layout
-
-
 def plot_sidebar():
 
     sb = html.Div(
