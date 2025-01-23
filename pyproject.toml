@@ -39,6 +39,7 @@ front_end = [
     "flask-restful",
 ]
 data_transformation = ["pint", "pycountry", "openpyxl"]
+plotting = ["plotly"]
 all = [
     "Bio",
     "biopython",
