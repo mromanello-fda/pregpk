@@ -28,8 +28,8 @@ def get_navbar():
         children=[
             dbc.NavItem(dbc.NavLink("PK Dashboard", href="/pk-dashboard")),
             dbc.NavItem(dbc.NavLink("About This Data", href="/about-this-data")),
-            dbc.NavItem(dbc.NavLink("About Us", href="about-us")),
-            dbc.NavItem(dbc.NavLink("Contact Us", href="contact")),
+            dbc.NavItem(dbc.NavLink("About Us", href="/about-us")),
+            dbc.NavItem(dbc.NavLink("Contact/Cite Us", href="/contact-cite-us")),
         ],
         brand=logo(),
         brand_href="/",
@@ -52,7 +52,7 @@ def dashboard(df, column_settings, dropdowns):
                     dashboard_sidebar(df, dropdowns),
                     dashboard_data_column(df, column_settings)
                 ],
-                className="dashboard-container",
+                className="page dashboard-container",
     )
 
     return layout
@@ -522,12 +522,212 @@ def plot_page():
     for i_fig_dict in all_figs:
         i_fig_dict["plotly_fig_obj"] = pio.from_json(json.dumps(i_fig_dict["plotly_fig_obj"]))
 
-    layout = dbc.Row([
-        plot_sidebar(),
-        html.Div([dcc.Graph(figure=i_fig["plotly_fig_obj"]) for i_fig in all_figs],
-                 id="plot_col", className="page-collapsed")
+    layout = html.Div(
+                [
+                    plot_sidebar(),
+                    html.Div([dcc.Graph(figure=i_fig["plotly_fig_obj"]) for i_fig in all_figs],
+                             id="plot_col", className="page-collapsed")
+                ],
+                className="page dashboard-container",
+    )
 
-    ], style={"height": "100%", "width": "100%", "margin-left": "0px"})
+    return layout
+
+
+def contact_us_page():
+
+    layout = html.Div(
+        ["Hello contact"],
+        className="page",
+    )
+
+    return layout
+
+
+def about_us_page():
+
+    layout = html.Div(
+        [
+            profile(
+                "assets/people/kiara_fairman.jpg",
+                "Kiara Fairman, MS, PharmD",
+                "Divison of Biochemical Toxicity, NCTR",
+                "Principal Investigator",
+                "Dr. Fairman is a staff fellow at FDA’s National Center for Toxicological Research (NCTR). She "
+                "previously served as an Oak Ridge Institute for Science and Education (ORISE) postdoctoral fellow "
+                "at NCTR from 2019–2021, where she worked on physiologically-based pharmacokinetic modeling tools for "
+                "regulatory decision making in pregnancy and other life stages. She received a Doctor of Pharmacy "
+                "degree from the University of North Texas System College of Pharmacy in Fort Worth, Texas. She holds "
+                "a Certificate in Regulatory Science from the University of Arkansas for Medical Sciences; a Master "
+                "of Science degree in biological sciences—chemistry track from the University of Texas Southwestern "
+                "Medical Center in Dallas, Texas; and a bachelor’s degree in chemistry from Alabama State University. "
+                "Dr. Fairman has attended and presented at various conferences and annual meetings in the areas of "
+                "toxicology, clinical pharmacology, pharmacy, and chemistry."
+            ),
+
+            profile(
+                "assets/people/miao_li.jpg",
+                "Miao Li, PhD, DABT",
+                "Office of Cosmetics and Colors, CFSAN",
+                "Principal Investigator",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+                "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+                "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+                "culpa qui officia deserunt mollit anim id est laborum."
+            ),
+
+            profile(
+                "assets/people/blessy_george.jpg",
+                "Blessy George, PharmD, PhD",
+                "Office of New Drugs, CDER",
+                "Principal Investigator",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+                "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+                "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+                "culpa qui officia deserunt mollit anim id est laborum."
+            ),
+
+            profile(
+                "assets/people/joshua_xu.jpg",
+                "Joshua Xu, PhD",
+                "Division of Bioinformatics and Biostatistics, NCTR",
+                "Principal Investigator",
+                "After graduating with a Ph.D. in electrical engineering from Texas A&M University in 1999, Dr. Xu "
+                "worked as a senior software engineer for a congressionally-funded mobile telemedicine program at the "
+                "Texas Center for Applied Technology, an R&D center of the Texas A&M University System. In this "
+                "position, he designed and developed many vital modules through software development and hardware "
+                "integration. In 2007, he joined ICF International to work as an onsite contractor for the National "
+                "Center for Toxicological Research. Dr. Xu’s primary responsibilities included:  1) data analysis, "
+                "2) bioinformatics method development, and 3) design and development of bioinformatics tools and "
+                "systems to manage and analyze genomics data."
+            ),
+
+            profile(
+                "assets/people/yifan_zhang.jpg",
+                "Yifan Zhang, PhD",
+                "Division of Bioinformatics and Biostatistics, NCTR",
+                "Principal Investigator",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+                "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+                "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+                "culpa qui officia deserunt mollit anim id est laborum."
+            ),
+
+            profile(
+                "assets/people/miguel_romanello.jpg",
+                "Miguel Romanello Joaquim, MS",
+                "Divison of Biochemical Toxicity, NCTR",
+                "Developer, ORISE Fellow",
+                "Born in Brazil, Bachelors from Notre Dame, Masters from UPenn, lives in Little Rock, working as an "
+                "ORISE Fellow since January 2024",
+            ),
+
+            profile(
+                "assets/people/emily_ciborek.jpg",
+                "Emily Ciborek, PharmD",
+                "--",
+                "--",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
+                "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse "
+                "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in "
+                "culpa qui officia deserunt mollit anim id est laborum."
+            ),
+
+        ],
+        className="page",
+    )
+    return layout
+
+
+def profile(headshot_path, name_text, affiliation_text, role_text, bio_text):
+
+    layout = html.Div(
+        [
+            html.Div(
+                [
+                    html.Img(
+                        src=headshot_path,
+                        className="profile-headshot"
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                html.A(
+                                    html.Img(
+                                        src="assets/icons/envelope-at-fill.svg",
+                                        style={"width": "100%"}
+                                    ),
+                                    href="mailto:someone@example.com",
+                                    target="_blank",
+                                ),
+                                className="profile-link-icon"
+                            ),
+                            html.Div(
+                                html.A(
+                                    html.Img(
+                                        src="assets/icons/orcid.svg",
+                                        style={"width": "100%"}
+                                    ),
+                                    href="https://orcid.org",
+                                    target="_blank",
+                                ),
+                                className="profile-link-icon"
+                            ),
+                            html.Div(
+                                html.A(
+                                    html.Img(
+                                        src="assets/icons/github.svg",
+                                        style={"width": "100%"}
+                                    ),
+                                    href="https://github.com/mromanello-fda",
+                                    target="_blank",
+                                ),
+                                className="profile-link-icon"
+                            ),
+                            html.Div(
+                                html.A(
+                                    html.Img(
+                                        src="assets/icons/linkedin.svg",
+                                        style={"width": "100%"}
+                                    ),
+                                    href="https://linkedin.com/mromanello",
+                                    target="_blank",
+                                ),
+                                className="profile-link-icon"
+                            ),
+                        ],
+                        className="profile-links"
+                    )
+                ],
+                className="profile-headshot-and-links"
+            ),
+            html.Div(
+                [
+                    html.Div(
+                        name_text,
+                        className="profile-name"),
+                    html.Div(
+                        affiliation_text,
+                        className="profile-affiliation"
+                    ),
+                    html.Div(
+                        role_text,
+                        className="profile-role"
+                    ),
+                    html.Div(
+                        bio_text,
+                        className="profile-bio"
+                    ),
+                ],
+                className="profile-text",
+            ),
+        ],
+        className="profile",
+    )
 
     return layout
 
